@@ -24,7 +24,7 @@
             justify-content: center;
             position: relative;
             overflow-x: hidden;
-            padding: 20px;
+            padding: 16px; /* Slightly reduced padding for tight phone screens */
         }
 
         body::after {
@@ -32,8 +32,8 @@
             position: fixed;
             bottom: -120px;
             right: -120px;
-            width: 700px;
-            height: 700px;
+            width: min(700px, 80vw); /* Prevent background graphic overflow on mobile */
+            height: min(700px, 80vw);
             background-image: url("{{ url_for('static', filename='LSPU-LOGO.jpg') }}");
             background-size: contain;
             background-repeat: no-repeat;
@@ -45,7 +45,7 @@
 
         .portal-card {
             background-color: #ffffff;
-            padding: 45px 35px;
+            padding: min(45px, 8vw) min(35px, 6vw); /* Fluid internal padding based on screen width */
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
             width: 100%;
@@ -67,8 +67,8 @@
         }
 
         .brand-header-box .circular-logo {
-            height: 80px;
-            width: 80px;
+            height: min(80px, 18vw); /* Scale down the logo emblem on very small mobile targets */
+            width: min(80px, 18vw);
             object-fit: cover;
             border-radius: 50%;
             margin-bottom: 15px;
@@ -76,10 +76,11 @@
         }
 
         .brand-header-box h1 {
-            font-size: 1.55rem;
+            font-size: calc(1.35rem + 0.5vw); /* Responsive header font scaling */
             font-weight: 700;
             color: #111827;
             margin-bottom: 6px;
+            line-height: 1.2;
         }
 
         .brand-header-box p {
@@ -97,7 +98,7 @@
         }
 
         .input-wrapper-container label {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: #4B5563;
             text-transform: uppercase;
@@ -124,10 +125,11 @@
             padding: 13px 16px 13px 45px;
             border: 1px solid #D1D5DB;
             border-radius: 6px;
-            font-size: 0.92rem;
+            font-size: 0.95rem; /* Slightly larger base text to avoid iOS auto-zoom constraints */
             background-color: #F8FAFC;
             color: #111827;
             transition: all 0.2s ease;
+            -webkit-appearance: none; /* Reset native styling variables on Apple mobile browsers */
         }
 
         input[type="text"]::placeholder, 
@@ -155,6 +157,7 @@
             transition: background-color 0.2s ease, transform 0.1s ease;
             width: 100%;
             margin-top: 5px;
+            -webkit-appearance: none;
         }
 
         .btn-submit-action:hover {
@@ -190,6 +193,7 @@
             font-size: 0.82rem;
             font-weight: 600;
             text-align: center;
+            width: 100%;
         }
     </style>
 </head>
@@ -231,7 +235,6 @@
 
         <button type="submit" class="btn-submit-action">Sign In to Dashboard</button>
         
-       
     </form>
 
 </body>
