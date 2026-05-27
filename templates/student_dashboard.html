@@ -6,29 +6,137 @@
     <title>Student Terminal - Camera Scanner</title>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #F8F9FB; margin: 0; padding: 0; text-align: center; }
-        .wrapper { max-width: 600px; margin: 40px auto; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        h1 { color: #3A78BF; margin-bottom: 5px; }
-        .logout-btn { background: #E63946; color: white; padding: 8px 16px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 15px; font-size: 0.85rem; }
-        #reader { width: 100%; max-width: 450px; background: white; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 2px solid #3A78BF !important; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background-color: #F4F6F9; 
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: min(20px, 4vw);
+        }
+
+        .wrapper { 
+            width: 100%;
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+
+        .card { 
+            background: white; 
+            padding: min(35px, 6vw); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
+            border-top: 4px solid #0d3c7c;
+            text-align: center;
+        }
+
+        h1 { 
+            color: #0d3c7c; 
+            font-size: calc(1.4rem + 0.5vw); 
+            font-weight: 700;
+            margin-bottom: 8px; 
+            line-height: 1.2;
+        }
+
+        .welcome-text {
+            color: #4B5563; 
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        .welcome-text strong {
+            color: #111827;
+        }
+
+        /* --- 📷 Enhanced Responsive QR Engine Viewport Box --- */
+        #reader { 
+            width: 100%; 
+            max-width: 420px; 
+            background: #ffffff; 
+            margin: 0 auto 20px auto; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 2px solid #3A78BF !important; 
+            box-shadow: 0 2px 8px rgba(58, 120, 191, 0.05);
+        }
+
+        /* Overriding html5-qrcode library default buttons to match your system theme */
+        #reader button {
+            background-color: #3A78BF !important;
+            color: #ffffff !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 6px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            cursor: pointer !important;
+            margin: 10px auto !important;
+            transition: background-color 0.2s;
+        }
+
+        #reader button:hover {
+            background-color: #316BB1 !important;
+        }
+
+        #reader select {
+            padding: 8px 12px !important;
+            border: 1px solid #D1D5DB !important;
+            border-radius: 6px !important;
+            background-color: #FAFBFD !important;
+            font-size: 0.9rem !important;
+            outline: none !important;
+        }
+
+        .logout-btn { 
+            background: #E63946; 
+            color: white; 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-top: 10px; 
+            font-size: 0.9rem; 
+            transition: background-color 0.2s ease;
+            width: 100%;
+            max-width: 250px;
+            -webkit-appearance: none;
+        }
+
+        .logout-btn:hover { 
+            background: #C92A3A; 
+        }
     </style>
 </head>
 <body>
+
     <div class="wrapper">
         <div class="card">
             <h1>Student Scanner Terminal</h1>
-            <p style="color:#757575; margin-bottom:20px;">Welcome, <strong>{{ session.get('username') }}</strong>! Scan a room's physical locker QR code to check out a key.</p>
+            <p class="welcome-text">
+                Welcome, <strong>{{ session.get('username') }}</strong>! Scan a room's physical locker QR code to check out a key.
+            </p>
             
             <div id="reader"></div>
 
-            <br>
-            <a href="/logout" class="logout-btn">Exit Student Session</a>
+            <a href="/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Exit Session</a>
         </div>
     </div>
 
     <script>
         function onScanSuccess(decodedText, decodedResult) {
+            // Evaluates incoming string to make sure it routes safely through your application host hooks
             if (decodedText.includes('/student_issue/')) {
                 html5QrcodeScanner.clear();
                 window.location.href = decodedText;
@@ -37,7 +145,16 @@
             }
         }
 
-        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        // Instantiates scanner with optimal dimensions for mobile touch screens
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+            fps: 15, 
+            qrbox: function(viewfinderWidth, viewfinderHeight) {
+                // Generates a responsive, dynamic viewport box targeting 65% of screen constraints safely
+                const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+                const boxSize = Math.floor(minEdge * 0.65);
+                return { width: boxSize, height: boxSize };
+            }
+        });
         html5QrcodeScanner.render(onScanSuccess);
     </script>
 </body>
