@@ -49,8 +49,8 @@
             position: fixed;
             bottom: -120px;
             right: -120px;
-            width: 700px;
-            height: 700px;
+            width: min(700px, 80vw);
+            height: min(700px, 80vw);
             background-image: url("{{ url_for('static', filename='LSPU-LOGO.jpg') }}");
             background-size: contain;
             background-repeat: no-repeat;
@@ -60,16 +60,18 @@
             z-index: 1;
         }
 
+        /* --- Updated Responsive Navbar --- */
         .top-navbar {
             background-color: #ffffff;
-            height: 75px;
+            min-height: 75px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 10px 24px;
             border-bottom: 1px solid #e5e7eb;
             position: relative;
             z-index: 100;
+            flex-wrap: wrap;
         }
 
         .navbar-brand-block {
@@ -78,36 +80,43 @@
             gap: 12px;
         }
 
-        .navbar-brand-block img {
-            height: 45px;
-            width: 45px;
-            object-fit: contain;
-            border-radius: 50%;
-        }
-
         .navbar-brand-block h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #0d3c7c;
+            line-height: 1.2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .navbar-brand-block h1 span {
             color: #6B7280;
             font-weight: 400;
-            margin: 0 8px;
+            margin: 0 6px;
         }
 
         .navbar-brand-block h2 {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: #4B5563;
         }
 
-        /* --- New Central Navigation Buttons CSS --- */
+        /* Mobile Hamburger Trigger */
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #4B5563;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
         .navbar-nav-links {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .navbar-nav-item {
@@ -117,7 +126,7 @@
             color: #4B5563;
             font-size: 0.9rem;
             font-weight: 600;
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: all 0.2s ease;
         }
@@ -136,7 +145,6 @@
         .navbar-nav-item:hover i {
             color: var(--keynexus-blue);
         }
-        /* ------------------------------------------- */
 
         .user-profile-menu-container {
             position: relative;
@@ -200,8 +208,9 @@
             background-color: #FEF2F2;
         }
 
+        /* --- Dashboard Body Constraints --- */
         .dashboard-wrapper {
-            padding: 40px;
+            padding: min(40px, 5vw);
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
@@ -211,9 +220,9 @@
         }
 
         .page-title {
-            font-size: 2.5rem;
+            font-size: calc(1.6rem + 1vw);
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border-left: 5px solid #1e6b38;
             padding-left: 15px;
             line-height: 1.1;
@@ -223,10 +232,12 @@
             display: flex;
             gap: 20px;
             align-items: flex-start;
+            flex-wrap: wrap; /* Allows wrap on smaller break targets */
         }
 
         .left-column {
             flex: 1;
+            min-width: 300px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -234,19 +245,22 @@
 
         .right-column {
             flex: 0 0 350px; 
+            width: 100%;
         }
 
         .stats-row {
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .stat-card {
             background-color: var(--white-card);
-            padding: 20px 30px;
+            padding: 20px;
             border-radius: var(--card-radius);
             box-shadow: var(--card-shadow);
             flex: 1; 
+            min-width: 160px;
             display: flex;
             flex-direction: column;
             border: 1px solid #E5E7EB;
@@ -254,30 +268,33 @@
 
         .stat-card .label {
             color: var(--text-sub);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-card .number {
-            font-size: 3rem;
+            font-size: calc(2rem + 0.8vw);
             font-weight: 800;
+            line-height: 1.2;
+            margin-top: 5px;
         }
 
         .actions-group-wrapper {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
         }
 
         .action-card {
             background-color: var(--keynexus-blue);
             color: #FFFFFF;
-            padding: 30px 20px;
+            padding: 25px 15px;
             border-radius: var(--card-radius);
             text-align: center;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.2s ease;
             box-shadow: var(--card-shadow);
         }
 
@@ -287,90 +304,151 @@
         }
 
         .action-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 12px;
         }
 
         .action-card h3 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .alert-feed-card {
             background-color: var(--white-card);
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--card-radius);
             box-shadow: var(--card-shadow);
-            min-height: 500px; 
+            min-height: 350px; 
             border: 1px solid #E5E7EB;
         }
 
         .alert-feed-card h3 {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
         }
 
         .alert-item {
             display: flex;
-            gap: 15px;
-            padding: 15px 0;
+            gap: 12px;
+            padding: 12px 0;
             border-bottom: 1px solid #eee;
         }
 
-        .alert-item.status-returned i, 
-        .alert-item.status-returned .alert-item-content .title,
-        .alert-item.status-returned .alert-item-content .subtext {
-            color: var(--status-green) !important;
+        .alert-item i {
+            margin-top: 3px;
+            flex-shrink: 0;
         }
 
-        .alert-item.status-borrowed i, 
-        .alert-item.status-borrowed .alert-item-content .title,
-        .alert-item.status-borrowed .alert-item-content .subtext,
-        .alert-item.status-borrowed .alert-item-content .countdown-timer {
-            color: var(--status-orange) !important;
-        }
-
-        .alert-item.status-missing i, 
-        .alert-item.status-missing .alert-item-content .title,
-        .alert-item.status-missing .alert-item-content .subtext,
-        .alert-item.status-missing .alert-item-content .countdown-timer {
-            color: var(--alert-red) !important;
+        .alert-item-content {
+            word-break: break-word; /* Prevents long names overflowing text cells */
         }
 
         .alert-item-content .title {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             display: block;
+            line-height: 1.3;
         }
 
         .alert-item-content .subtext {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 2px;
         }
         
         .alert-item-content .countdown-timer {
             display: block;
             font-size: 0.75rem;
             font-weight: bold;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .dashboard-footer {
-            margin-top: 20px;
+            margin-top: 25px;
             color: var(--text-sub);
             font-size: 0.8rem;
             text-align: center;
             width: 100%;
+        }
+
+        /* --- 📱 MEDIA QUERIES FOR COMPACT BREAKPOINTS --- */
+        @media (max-width: 991px) {
+            .right-column {
+                flex: 1 1 100%; /* Push alert feed full width under the modules grid */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle-btn {
+                display: block; /* Reveal mobile trigger */
+            }
+
+            .navbar-nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px 20px;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+                display: none; /* Controlled by toggle handler class */
+            }
+
+            .navbar-nav-links.active {
+                display: flex;
+            }
+
+            .navbar-nav-item {
+                padding: 12px 16px;
+                border-radius: 0;
+                border-bottom: 1px solid #f3f4f6;
+            }
+            
+            .navbar-nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .top-navbar {
+                padding: 10px 16px;
+            }
+            
+            .user-profile-menu-container {
+                margin-left: auto;
+                margin-right: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand-block h1 span {
+                display: none; /* Hide separating pipeline character */
+            }
+            .navbar-brand-block h2 {
+                width: 100%;
+                font-size: 0.8rem;
+            }
+            .stat-card {
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
     <nav class="top-navbar">
+        <button class="menu-toggle-btn" id="menuToggle" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
         <div class="navbar-brand-block" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
             <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
         </div>
         
-        <div class="navbar-nav-links">
+        <div class="navbar-nav-links" id="navLinks">
             <a href="/room" class="navbar-nav-item">
                 <i class="fa-solid fa-door-open"></i> Rooms
             </a>
@@ -488,15 +566,30 @@
     <script>
         const profilePill = document.getElementById('profilePill');
         const dropdownMenu = document.getElementById('dropdownMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
 
+        // Toggle user dropdown panel
         profilePill.addEventListener('click', function(event) {
             event.stopPropagation();
             dropdownMenu.classList.toggle('show');
+            navLinks.classList.remove('active'); // Close mobile menu if profile opens
         });
 
+        // Toggle mobile hamburger menu
+        menuToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            navLinks.classList.toggle('active');
+            dropdownMenu.classList.remove('show'); // Close profile if navigation opens
+        });
+
+        // Universal outside click dismissal
         document.addEventListener('click', function(event) {
             if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove('show');
+            }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
+                navLinks.classList.remove('active');
             }
         });
 
