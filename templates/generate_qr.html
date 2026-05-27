@@ -7,28 +7,60 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
+            --light-gray-bg: #F4F6F9;
+            --white-card: #FFFFFF;
             --keynexus-blue: #3A78BF;
+            --text-black: #000000;
+            --text-sub: #757575; 
+            --alert-red: #E63946;
+            --status-green: #2A9D8F;
+            --font-stack: 'Segoe UI', Roboto, system-ui, sans-serif;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            --card-radius: 8px; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: #F8F9FB;
         }
 
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
+            font-family: var(--font-stack); 
             background-color: #F8F9FB; 
-            margin: 0; 
-            padding: 0; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* --- Global Top Navbar Styles --- */
+        /* --- 🛠️ Fixed Ultra-Responsive Navbar System --- */
         .top-navbar {
             background-color: #ffffff;
             height: 75px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
+            padding: 0 24px;
             border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #4B5563;
+            cursor: pointer;
+            padding: 6px;
+            margin-right: 8px;
         }
 
         .navbar-brand-block {
@@ -36,13 +68,17 @@
             align-items: center;
             gap: 12px;
             cursor: pointer;
+            flex-shrink: 1;
+            min-width: 0;
         }
 
         .navbar-brand-block h1 {
-            margin: 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #0d3c7c;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .navbar-brand-block h1 span {
@@ -52,23 +88,22 @@
         }
 
         .navbar-brand-block h2 {
-            margin: 0;
             font-size: 0.95rem;
             font-weight: 500;
             color: #4B5563;
+            display: inline-block;
         }
 
         .navbar-nav-links {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
         .navbar-nav-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
             color: #4B5563;
             font-size: 0.9rem;
             font-weight: 600;
@@ -85,7 +120,6 @@
         .navbar-nav-item i {
             font-size: 0.95rem;
             color: #6B7280;
-            transition: color 0.2s ease;
         }
 
         .navbar-nav-item:hover i {
@@ -95,14 +129,15 @@
         .user-profile-menu-container {
             position: relative;
             display: inline-block;
+            flex-shrink: 0;
         }
 
         .user-dropdown-pill {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             background-color: #F3F4F6;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 30px;
             border: 1px solid #E5E7EB;
             cursor: pointer;
@@ -115,7 +150,7 @@
         }
 
         .user-dropdown-pill span {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #374151;
         }
@@ -125,7 +160,7 @@
             top: 115%;
             right: 0;
             background-color: #ffffff;
-            min-width: 160px;
+            min-width: 150px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             border-radius: 8px;
             border: 1px solid #E5E7EB;
@@ -147,8 +182,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            text-decoration: none;
-            transition: background-color 0.2s;
         }
 
         .dropdown-item-link:hover {
@@ -158,40 +191,49 @@
         /* --- Page Layout Components --- */
         main { 
             max-width: 1000px; 
-            margin: 40px auto; 
+            margin: min(40px, 6vw) auto; 
             padding: 0 20px; 
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+            width: 100%;
+            flex: 1;
         }
         
         .card { 
             background: white; 
-            padding: 40px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: min(40px, 6vw); 
+            border-radius: var(--card-radius); 
+            box-shadow: var(--card-shadow);
             border: 1px solid #e5e7eb;
             text-align: center;
         }
 
-        h1 { color: #111827; font-size: 1.8rem; margin: 0 0 10px 0; }
+        h1 { color: #111827; font-size: calc(1.4rem + 0.6vw); margin-bottom: 10px; font-weight: 700; }
         
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
         input[type="text"] { 
-            width: 60%; 
+            width: 100%; 
+            max-width: 500px;
             padding: 14px; 
-            margin-bottom: 15px; 
             border: 1px solid #ddd; 
             border-radius: 6px; 
-            font-size: 1.1rem; 
+            font-size: 1.05rem; 
             text-align: center; 
             outline: none;
+            transition: all 0.2s;
         }
         input[type="text"]:focus {
             border-color: #3A78BF;
             box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.1);
         }
 
-        button { 
+        button[type="submit"] { 
             background-color: #3A78BF; 
             color: white; 
             border: none; 
@@ -200,35 +242,50 @@
             font-weight: 600; 
             cursor: pointer; 
             font-size: 1rem; 
+            width: 100%;
+            max-width: 500px;
+            transition: background-color 0.2s;
         }
-        button:hover { background-color: #316BB1; }
+        button[type="submit"]:hover { background-color: #316BB1; }
 
-        .flash-banner { padding: 12px; border-radius: 6px; text-align: center; font-weight: 500; margin-bottom: 20px; font-size: 0.9rem; }
+        .flash-banner { padding: 12px; border-radius: 6px; text-align: center; font-weight: 500; margin-bottom: 20px; font-size: 0.9rem; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; }
         .error { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
 
         /* --- Room Grid Sub-Systems --- */
-        .rooms-section h3 { margin: 0 0 15px 0; text-align: left; font-size: 1.1rem; color: #374151; display: flex; align-items: center; gap: 8px; }
-        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .rooms-section { margin-top: 25px; }
+        .rooms-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 12px; 
+        }
         .room-pill { 
             background: #ffffff; 
             border: 1px solid #e5e7eb; 
-            padding: 12px; 
+            padding: 12px 10px; 
             border-radius: 6px; 
             text-align: center; 
             cursor: pointer; 
             font-weight: 600; 
             color: #111827;
+            font-size: 0.88rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            min-width: 0;
+        }
+        .room-pill span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .room-pill:hover { border-color: var(--keynexus-blue); background: #FAFBFD; color: var(--keynexus-blue); }
-        .room-pill i { color: #2A9D8F; font-size: 0.85rem; }
+        .room-pill i { color: #2A9D8F; font-size: 0.75rem; flex-shrink: 0; }
 
+        /* --- QR Visual Container Framework --- */
         .qr-display { 
-            margin-top: 40px; 
+            margin-top: 35px; 
             padding-top: 30px; 
             border-top: 2px dashed #e2e8f0; 
             display: flex;
@@ -236,28 +293,83 @@
             align-items: center;
             justify-content: center;
         }
+        .qr-display p {
+            max-width: 450px;
+            line-height: 1.4;
+        }
         .qr-img-container { 
             display: block; 
             background: white; 
-            padding: 20px; 
+            padding: 15px; 
             border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
             margin-top: 20px; 
-            width: 320px;
-            height: 320px;
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1 / 1;
             box-sizing: border-box;
         }
         .qr-img-container img { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+
+        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .menu-toggle-btn {
+                display: block; 
+            }
+
+            .top-navbar {
+                padding: 0 16px;
+                height: 65px; 
+            }
+
+            .navbar-brand-block h1 {
+                font-size: 1.0rem; 
+            }
+
+            .navbar-brand-block h1 span, 
+            .navbar-brand-block h2 {
+                display: none; 
+            }
+
+            .navbar-nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 0;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+                display: none;
+            }
+
+            .navbar-nav-links.active {
+                display: flex;
+            }
+
+            .navbar-nav-item {
+                padding: 14px 20px;
+                border-radius: 0;
+                border-bottom: 1px solid #f3f4f6;
+            }
+        }
     </style>
 </head>
 <body>
 
     <nav class="top-navbar">
+        <button class="menu-toggle-btn" id="menuToggle" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
         <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
-            <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
+            <h1>LSPU-LB CCS Department<span>|</span><h2>Admin Portal</h2></h1>
         </div>
         
-        <div class="navbar-nav-links">
+        <div class="navbar-nav-links" id="navLinks">
             <a href="/room" class="navbar-nav-item">
                 <i class="fa-solid fa-door-open"></i> Rooms
             </a>
@@ -275,8 +387,8 @@
         <div class="user-profile-menu-container">
             <div class="user-dropdown-pill" id="profilePill">
                 <span>admin</span>
-                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.85rem; margin-left: 5px;"></i>
-                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.65rem; margin-left: 4px;"></i>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.8rem; margin-left: 2px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.6rem; margin-left: 2px;"></i>
             </div>
             
             <div class="dropdown-menu-panel" id="dropdownMenu">
@@ -290,7 +402,7 @@
     <main>
         <div class="card">
             <h1>Generate Key Request QR</h1>
-            <p style="color: #6b7280; margin-bottom: 25px;">Type a room location identifier to deploy a live self-checkout QR access token.</p>
+            <p style="color: #6b7280; margin-bottom: 25px; font-size: 0.95rem;">Type a room location identifier to deploy a live self-checkout QR access token.</p>
             
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -302,25 +414,23 @@
 
             <form action="/generate_qr" method="POST">
                 <input type="text" id="roomInput" name="room_number" placeholder="Enter Room Number (e.g., comlab 3)" required value="{{ room_number or '' }}">
-                <br>
                 <button type="submit">Create Scanner QR Link</button>
             </form>
 
-            <div class="rooms-section" style="margin-top: 35px;">
+            <div class="rooms-section">
                 <div class="rooms-grid">
                     {% for room in available_rooms %}
                         <div class="room-pill" onclick="autofillRoom('{{ room }}')">
-                            <i class="fa-solid fa-circle"></i> {{ room }}
+                            <i class="fa-solid fa-circle"></i> <span>{{ room }}</span>
                         </div>
-                    {% else %}
                     {% endfor %}
                 </div>
             </div>
 
             {% if qr_data_uri %}
                 <div class="qr-display">
-                    <h2 style="color: #111827; font-size: 2rem; margin-bottom: 5px;">{{ room_number }}</h2>
-                    <p style="color: #E63946; font-weight: 600; margin-bottom: 10px; font-size: 1rem;">⚠️ Scan with your mobile device to open the booking log slip</p>
+                    <h2 style="color: #111827; font-size: 1.8rem; margin-bottom: 5px; font-weight: 700;">{{ room_number }}</h2>
+                    <p style="color: #E63946; font-weight: 600; margin-bottom: 10px; font-size: 0.9rem;">⚠️ Scan with your mobile device to open the booking log slip</p>
                     <div class="qr-img-container">
                         <img src="{{ qr_data_uri }}" alt="Scannable QR Code Asset Block">
                     </div>
@@ -345,23 +455,33 @@
     </main>
 
     <script>
-        // Autofill utility method
         function autofillRoom(roomName) {
             document.getElementById('roomInput').value = roomName;
         }
 
-        // Global dropdown view logic handler
         const profilePill = document.getElementById('profilePill');
         const dropdownMenu = document.getElementById('dropdownMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
 
         profilePill.addEventListener('click', function(event) {
             event.stopPropagation();
             dropdownMenu.classList.toggle('show');
+            navLinks.classList.remove('active');
+        });
+
+        menuToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            navLinks.classList.toggle('active');
+            dropdownMenu.classList.remove('show');
         });
 
         document.addEventListener('click', function(event) {
             if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove('show');
+            }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
+                navLinks.classList.remove('active');
             }
         });
     </script>
