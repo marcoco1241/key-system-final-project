@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - CCS Key Nexus</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: #F4F6F9; 
+            color: #1F2937;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: -120px;
+            right: -120px;
+            width: 700px;
+            height: 700px;
+            background-image: url("{{ url_for('static', filename='LSPU-LOGO.jpg') }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .portal-card {
+            background-color: #ffffff;
+            padding: 45px 35px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); 
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px; 
+            border-top: 4px solid #0d3c7c;
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand-header-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .brand-header-box .circular-logo {
+            height: 80px;
+            width: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .brand-header-box h1 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .brand-header-box p {
+            font-size: 0.78rem;
+            color: #6B7280;
+            line-height: 1.4;
+            max-width: 280px;
+        }
+
+        .input-wrapper-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .input-wrapper-container label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #4B5563;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .field-input-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .field-input-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            font-size: 1rem;
+        }
+
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            padding: 13px 16px 13px 45px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            background-color: #F8FAFC;
+            color: #111827;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]::placeholder, 
+        input[type="password"]::placeholder {
+            color: #9CA3AF;
+        }
+
+        input[type="text"]:focus, 
+        input[type="password"]:focus {
+            border-color: #3A78BF;
+            background-color: #ffffff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08); 
+        }
+
+        .btn-submit-action {
+            background-color: #0d3c7c;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .btn-submit-action:hover {
+            background-color: #0A2F61; 
+        }
+
+        .btn-submit-action:active {
+            transform: scale(0.99); 
+        }
+
+        .forgot-password-link {
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #10B981;
+            text-decoration: none;
+            margin-top: 5px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        .forgot-password-link:hover {
+            color: #059669;
+            text-decoration: underline;
+        }
+
+        .flash-error-strip {
+            background-color: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #FCA5A5;
+            padding: 11px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="portal-card" action="/login" method="POST">
+        
+        <div class="brand-header-box">
+            <img src="{{ url_for('static', filename='CCS_LOGO.jpg') }}" alt="CCS Council Emblem" class="circular-logo">
+            <h1>Admin Portal</h1>
+            <p>LSPU-LB Computer Studies Department Management Gateway</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-error-strip">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="input-wrapper-container">
+            <label>Username</label>
+            <div class="field-input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="username" placeholder="Enter admin username" required>
+            </div>
+        </div>
+
+        <div class="input-wrapper-container">
+            <label>Password</label>
+            <div class="field-input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit-action">Sign In to Dashboard</button>
+        
+       
+    </form>
+
+</body>
+</html>

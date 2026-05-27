@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students - Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --keynexus-blue: #3A78BF;
+            --alert-red: #E63946;
+            --status-green: #2A9D8F;
+        }
+
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #F8F9FB; margin: 0; padding: 0; }
+
+        .top-navbar {
+            background-color: #ffffff;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .navbar-brand-block h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d3c7c;
+        }
+
+        .navbar-brand-block h1 span {
+            color: #6B7280;
+            font-weight: 400;
+            margin: 0 8px;
+        }
+
+        .navbar-brand-block h2 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4B5563;
+        }
+
+        .navbar-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #4B5563;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-nav-item:hover {
+            background-color: #F3F4F6;
+            color: var(--keynexus-blue);
+        }
+
+        .navbar-nav-item i {
+            font-size: 0.95rem;
+            color: #6B7280;
+            transition: color 0.2s ease;
+        }
+
+        .navbar-nav-item:hover i {
+            color: var(--keynexus-blue);
+        }
+
+        .user-profile-menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #F3F4F6;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        .user-dropdown-pill:hover {
+            background-color: #E5E7EB;
+        }
+
+        .user-dropdown-pill span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .dropdown-menu-panel.show {
+            display: flex;
+        }
+
+        .dropdown-item-link {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #E63946;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item-link:hover {
+            background-color: #FEF2F2;
+        }
+
+        .container { max-width: 1400px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 2.4fr; gap: 30px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); height: fit-content; border: 1px solid #e5e7eb; }
+        h2 { color: #3A78BF; margin-top: 0; margin-bottom: 20px; }
+        label { font-weight: 600; font-size: 0.9rem; color: #444; display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; background: #FAFBFD; font-size: 0.95rem; }
+        button.btn-create { background-color: #3A78BF; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        button.btn-create:hover { background-color: #316BB1; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; }
+        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #edf2f7; }
+        th { background-color: #f9fafb; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #6b7280; }
+        
+        .actions-cell { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+        
+        .btn-edit {
+            background-color: #E1EFFE;
+            color: #1E429F;
+            border: 1px solid #A4CAFE;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .btn-edit:hover { background-color: #1E429F; color: #ffffff; border-color: #1E429F; }
+
+        .btn-delete {
+            background-color: #FEE2E2;
+            color: var(--alert-red);
+            border: 1px solid #FCA5A5;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .btn-delete:hover { background-color: var(--alert-red); color: #ffffff; border-color: var(--alert-red); }
+
+        .flash-banner { padding: 12px; border-radius: 6px; text-align: center; font-weight: 500; margin-bottom: 15px; font-size: 0.9rem; }
+        .success { background-color: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; }
+        .error { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-box {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 1px solid #e5e7eb;
+        }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-save { background-color: var(--status-green); color: white; border: none; padding: 12px; flex: 1; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-save:hover { background-color: #23857a; }
+        .btn-close { background-color: #e5e7eb; color: #4b5563; border: none; padding: 12px; flex: 1; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-close:hover { background-color: #d1d5db; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
+            <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
+        </div>
+        
+        <div class="navbar-nav-links">
+            <a href="/room" class="navbar-nav-item">
+                <i class="fa-solid fa-door-open"></i> Rooms
+            </a>
+            <a href="/admin/students" class="navbar-nav-item" style="background-color: #F3F4F6; color: var(--keynexus-blue);">
+                <i class="fa-solid fa-graduation-cap" style="color: var(--keynexus-blue);"></i> Students
+            </a>
+            <a href="/return" class="navbar-nav-item">
+                <i class="fa-solid fa-rotate-left"></i> Return
+            </a>
+            <a href="/generate_qr" class="navbar-nav-item">
+                <i class="fa-solid fa-qrcode"></i> Generate QR
+            </a>
+        </div>
+
+        <div class="user-profile-menu-container">
+            <div class="user-dropdown-pill" id="profilePill">
+                <span>admin</span>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.85rem; margin-left: 5px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.65rem; margin-left: 4px;"></i>
+            </div>
+            
+            <div class="dropdown-menu-panel" id="dropdownMenu">
+                <a href="/logout" class="dropdown-item-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Register Student</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-banner {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/admin/students" method="POST">
+                <label>Student ID Number:</label>
+                <input type="text" name="student_id" placeholder="e.g., 2026-00123" required>
+                
+                <label>Student Full Name:</label>
+                <input type="text" name="fullname" placeholder="Jane Doe" required>
+                
+                <label>Student Gmail Account:</label>
+                <input type="email" name="email" placeholder="username@gmail.com" required>
+                
+                <label>Student Password:</label>
+                <input type="password" name="password" placeholder="••••••••••••" required>
+                
+                <button type="submit" class="btn-create">Create Student Account</button>
+            </form>
+        </div>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Gmail Account</th>
+                        <th>Password String</th>
+                        <th style="text-align: right; padding-right: 25px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td style="font-weight: 600; color: #111827;">{{ student.student_id }}</td>
+                        <td>{{ student.fullname }}</td>
+                        <td style="color: #3A78BF; font-weight: 500;">{{ student.gmail or student.email or '—' }}</td>
+                        <td style="font-family: monospace; color: #757575; font-size: 0.9rem;">{{ student.password }}</td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-edit" onclick="launchEditWorkspace('{{ student.id }}')">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                </button>
+                                <form action="/admin/students/delete/{{ student.id }}" method="POST" style="display: inline;" onsubmit="return confirmWipeSignature('{{ student.fullname }}')">
+                                    <button type="submit" class="btn-delete">
+                                        <i class="fa-solid fa-trash-can"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #9ca3af; padding: 40px;">No student records found in database registry.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <h2 style="margin-bottom: 15px; font-size: 1.3rem;"><i class="fa-solid fa-user-pen"></i> Edit Student Credentials</h2>
+            <form id="editForm" method="POST" action="">
+                <label>Student ID Number:</label>
+                <input type="text" name="student_id" id="edit_student_id" required>
+                
+                <label>Student Full Name:</label>
+                <input type="text" name="fullname" id="edit_fullname" required>
+                
+                <label>Student Gmail Account:</label>
+                <input type="email" name="email" id="edit_email" required>
+                
+                <label>Student Password String:</label>
+                <input type="text" name="password" id="edit_password" required style="background: #ffffff; border: 1px solid #ddd;">
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn-close" onclick="closeEditWorkspace()">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function launchEditWorkspace(studentId) {
+            fetch(`/admin/students/get/${studentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert("Error: " + data.error);
+                        return;
+                    }
+                    document.getElementById('edit_student_id').value = data.student_id;
+                    document.getElementById('edit_fullname').value = data.fullname;
+                    document.getElementById('edit_email').value = data.email || '';
+                    document.getElementById('edit_password').value = data.password;
+                    
+                    document.getElementById('editForm').action = `/admin/students/update/${studentId}`;
+                  
+                    document.getElementById('editModal').style.display = 'flex';
+                })
+                .catch(err => console.error("Asynchronous workflow retrieval crash: ", err));
+        }
+
+        function closeEditWorkspace() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function confirmWipeSignature(studentName) {
+            return confirm(`⚠️ WARNING: Are you sure you want to permanently delete the student account for "${studentName}" from the Key Nexus system? This cannot be undone.`);
+        }
+
+        const profilePill = document.getElementById('profilePill');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        profilePill.addEventListener('click', function(event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

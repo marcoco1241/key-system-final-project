@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Room - CCS Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --keynexus-blue: #3A78BF;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #F8F9FB;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Global Top Navbar Styles --- */
+        .top-navbar {
+            background-color: #ffffff;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .navbar-brand-block h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d3c7c;
+        }
+
+        .navbar-brand-block h1 span {
+            color: #6B7280;
+            font-weight: 400;
+            margin: 0 8px;
+        }
+
+        .navbar-brand-block h2 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4B5563;
+        }
+
+        .navbar-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #4B5563;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-nav-item:hover {
+            background-color: #F3F4F6;
+            color: var(--keynexus-blue);
+        }
+
+        .navbar-nav-item i {
+            font-size: 0.95rem;
+            color: #6B7280;
+            transition: color 0.2s ease;
+        }
+
+        .navbar-nav-item:hover i {
+            color: var(--keynexus-blue);
+        }
+
+        .user-profile-menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #F3F4F6;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        .user-dropdown-pill:hover {
+            background-color: #E5E7EB;
+        }
+
+        .user-dropdown-pill span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .dropdown-menu-panel.show {
+            display: flex;
+        }
+
+        .dropdown-item-link {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #E63946;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item-link:hover {
+            background-color: #FEF2F2;
+        }
+        /* ------------------------------------- */
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        h1 { margin: 0; font-size: 2rem; color: #111827; }
+        .controls { display: flex; gap: 10px; }
+        input[type="text"], select {
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        input[type="text"] { width: 260px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid #edf2f7; }
+        th { background-color: #f9fafb; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #6b7280; }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .bg-emerald { background: #def7ec; color: #03543f; }
+        .bg-amber { background: #fef3c7; color: #92400e; }
+        .bg-red { background: #fde8e8; color: #9b1c1c; }
+        .bg-purple { background: #f3e8ff; color: #5b21b6; }
+        .bg-orange { background: #fffaf0; color: #dd6b20; border: 1px solid #fbd38d; }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+        .btn-action:hover { opacity: 0.9; }
+        .btn-blue { background: #e1effe; color: #1e429f; }
+        .btn-green { background: #def7ec; color: #03543f; }
+        .btn-orange { background: #feebc8; color: #c05621; }
+        .btn-purple { background: #e9d8fd; color: #6b46c1; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
+            <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
+        </div>
+        
+        <div class="navbar-nav-links">
+            <a href="/room" class="navbar-nav-item" style="background-color: #F3F4F6; color: var(--keynexus-blue);">
+                <i class="fa-solid fa-door-open" style="color: var(--keynexus-blue);"></i> Rooms
+            </a>
+            <a href="/admin/students" class="navbar-nav-item">
+                <i class="fa-solid fa-graduation-cap"></i> Students
+            </a>
+            <a href="/return" class="navbar-nav-item">
+                <i class="fa-solid fa-rotate-left"></i> Return
+            </a>
+            <a href="/generate_qr" class="navbar-nav-item">
+                <i class="fa-solid fa-qrcode"></i> Generate QR
+            </a>
+        </div>
+
+        <div class="user-profile-menu-container">
+            <div class="user-dropdown-pill" id="profilePill">
+                <span>admin</span>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.85rem; margin-left: 5px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.65rem; margin-left: 4px;"></i>
+            </div>
+            
+            <div class="dropdown-menu-panel" id="dropdownMenu">
+                <a href="/logout" class="dropdown-item-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="header-row">
+            <div>
+                <h1>Find Room & Status</h1>
+                <p style="color:#6b7280; font-size:0.9rem; margin:5px 0 0 0;">Search room availability, active holdings, and asset tracking details.</p>
+            </div>
+            
+            <div class="controls">
+                <input type="text" id="searchInput" oninput="loadRooms()" placeholder="Search room, borrower name...">
+                <select id="statusFilter" onchange="loadRooms()">
+                    <option>All Statuses</option>
+                    <option>Available</option>
+                    <option>Keys Out Now</option>
+                    <option>Overdue</option>
+                    <option>Lost</option>
+                    <option>Damaged</option>
+                </select>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Room / Facility</th>
+                    <th>Key ID</th>
+                    <th>Availability Status</th>
+                    <th>Current Holder</th>
+                    <th>Time Logs</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="roomTableBody">
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        // Dropdown Menu Logic Implementation
+        const profilePill = document.getElementById('profilePill');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        profilePill.addEventListener('click', function(event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        async function loadRooms() {
+            const search = document.getElementById('searchInput').value;
+            const status = document.getElementById('statusFilter').value;
+            const tableBody = document.getElementById('roomTableBody');
+
+            try {
+                const response = await fetch(`/api/fetch_rooms?search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`);
+                const data = await response.json();
+
+                tableBody.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#9ca3af; padding:40px;">No matching unique rooms or tracking signatures found.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    let badgeClass = 'bg-emerald';
+                    let actionButton = `<button class="btn-action btn-green" onclick="window.location.href='/issue?room=${encodeURIComponent(item.room)}'"><i class="fa-solid fa-key"></i> Issue Key</button>`;
+
+                    if (item.status === 'Overdue') {
+                        badgeClass = 'bg-red';
+                        actionButton = `<button class="btn-action btn-blue" onclick="window.location.href='/return'"><i class="fa-solid fa-rotate-left"></i> Return Key</button>`;
+                    } else if (item.status === 'Keys Out Now') {
+                        badgeClass = 'bg-amber';
+                        actionButton = `<button class="btn-action btn-blue" onclick="window.location.href='/return'"><i class="fa-solid fa-rotate-left"></i> Return Key</button>`;
+                    } else if (item.status === 'Lost') {
+                        badgeClass = 'bg-orange';
+                        actionButton = `<button class="btn-action btn-orange" onclick="confirmLostReplacement('${escapeJs(item.room)}')"><i class="fa-solid fa-shield-halved"></i> Master Key</button>`;
+                    } else if (item.status === 'Damaged') {
+                        badgeClass = 'bg-purple';
+                        actionButton = `<button class="btn-action btn-purple" onclick="confirmKeyRepair('${escapeJs(item.room)}')"><i class="fa-solid fa-wrench"></i> Log Repair</button>`;
+                    }
+
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td style="font-weight:600; color:#111827;">${escapeHtml(item.room)}</td>
+                            <td style="font-family:monospace; color:#6b7280; font-size:0.85rem;">${escapeHtml(item.key_id)}</td>
+                            <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                            <td style="font-weight:500;">${escapeHtml(item.holder)}</td>
+                            <td style="color:#6b7280; font-size:0.85rem;">${escapeHtml(item.time_logs)}</td>
+                            <td style="text-align: right;">${actionButton}</td>
+                        </tr>`;
+                });
+            } catch (err) {
+                console.error("Failed to query unique room data structures: ", err);
+            }
+        }
+
+        async function confirmLostReplacement(roomNum) {
+            const warningMessage = `CONFIRM REPLACEMENT: Has a new duplicate/master key been successfully coded and cut to replace the lost key for ${roomNum}? This will unlock the lockdown status and make it Available again.`;
+            
+            if (confirm(warningMessage)) {
+                try {
+                    const response = await fetch(`/api/replace_lost/${encodeURIComponent(roomNum)}`, { method: 'POST' });
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert(`Success! ${roomNum} status reset to Available using master/duplicate replacement key.`);
+                        loadRooms();
+                    } else {
+                        alert("Error: " + result.error);
+                    }
+                } catch (err) {
+                    console.error("Failed to process lost replacement workflow:", err);
+                }
+            }
+        }
+
+        async function confirmKeyRepair(roomNum) {
+            const warningMessage = `Are you sure the key for ${roomNum} has been completely repaired, straightened, and is ready to be stored back in the locker?`;
+            
+            if (confirm(warningMessage)) {
+                try {
+                    const response = await fetch(`/api/repair_done/${encodeURIComponent(roomNum)}`, { method: 'POST' });
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert(`Success! ${roomNum} key status updated to Available.`);
+                        loadRooms();
+                    } else {
+                        alert("Error: " + result.error);
+                    }
+                } catch (err) {
+                    console.error("Failed to submit repair completion tracking log:", err);
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function escapeJs(str) {
+            if (!str) return '';
+            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+
+        window.onload = loadRooms;
+    </script>
+</body>
+</html>

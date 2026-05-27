@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPU-LB CCS Department Admin Portal - Dashboard</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --light-gray-bg: #F4F6F9;
+            --white-card: #FFFFFF;
+            --keynexus-blue: #3A78BF;
+            --text-black: #000000;
+            --text-sub: #757575; 
+            --alert-red: #E63946;
+            --status-green: #2A9D8F;
+            --status-orange: #F4A261;
+            --font-stack: 'Segoe UI', Roboto, sans-serif;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            --card-radius: 8px; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: #F8F9FB;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--light-gray-bg);
+            color: var(--text-black);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: -120px;
+            right: -120px;
+            width: 700px;
+            height: 700px;
+            background-image: url("{{ url_for('static', filename='LSPU-LOGO.jpg') }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .top-navbar {
+            background-color: #ffffff;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid #e5e7eb;
+            position: relative;
+            z-index: 100;
+        }
+
+        .navbar-brand-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-brand-block img {
+            height: 45px;
+            width: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .navbar-brand-block h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d3c7c;
+        }
+
+        .navbar-brand-block h1 span {
+            color: #6B7280;
+            font-weight: 400;
+            margin: 0 8px;
+        }
+
+        .navbar-brand-block h2 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4B5563;
+        }
+
+        /* --- New Central Navigation Buttons CSS --- */
+        .navbar-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4B5563;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-nav-item:hover {
+            background-color: #F3F4F6;
+            color: var(--keynexus-blue);
+        }
+
+        .navbar-nav-item i {
+            font-size: 0.95rem;
+            color: #6B7280;
+            transition: color 0.2s ease;
+        }
+
+        .navbar-nav-item:hover i {
+            color: var(--keynexus-blue);
+        }
+        /* ------------------------------------------- */
+
+        .user-profile-menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-dropdown-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #F3F4F6;
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        .user-dropdown-pill:hover {
+            background-color: #E5E7EB;
+        }
+
+        .user-dropdown-pill span {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .dropdown-menu-panel.show {
+            display: flex;
+        }
+
+        .dropdown-item-link {
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #E63946;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item-link:hover {
+            background-color: #FEF2F2;
+        }
+
+        .dashboard-wrapper {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-left: 5px solid #1e6b38;
+            padding-left: 15px;
+            line-height: 1.1;
+        }
+
+        .main-layout-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .left-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .right-column {
+            flex: 0 0 350px; 
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--white-card);
+            padding: 20px 30px;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #E5E7EB;
+        }
+
+        .stat-card .label {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-card .number {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+
+        .actions-group-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background-color: var(--keynexus-blue);
+            color: #FFFFFF;
+            padding: 30px 20px;
+            border-radius: var(--card-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: var(--card-shadow);
+        }
+
+        .action-card:hover {
+            background-color: #316BB1;
+            transform: translateY(-3px);
+        }
+
+        .action-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .action-card h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .alert-feed-card {
+            background-color: var(--white-card);
+            padding: 25px;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            min-height: 500px; 
+            border: 1px solid #E5E7EB;
+        }
+
+        .alert-feed-card h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .alert-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .alert-item.status-returned i, 
+        .alert-item.status-returned .alert-item-content .title,
+        .alert-item.status-returned .alert-item-content .subtext {
+            color: var(--status-green) !important;
+        }
+
+        .alert-item.status-borrowed i, 
+        .alert-item.status-borrowed .alert-item-content .title,
+        .alert-item.status-borrowed .alert-item-content .subtext,
+        .alert-item.status-borrowed .alert-item-content .countdown-timer {
+            color: var(--status-orange) !important;
+        }
+
+        .alert-item.status-missing i, 
+        .alert-item.status-missing .alert-item-content .title,
+        .alert-item.status-missing .alert-item-content .subtext,
+        .alert-item.status-missing .alert-item-content .countdown-timer {
+            color: var(--alert-red) !important;
+        }
+
+        .alert-item-content .title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .alert-item-content .subtext {
+            font-size: 0.8rem;
+        }
+        
+        .alert-item-content .countdown-timer {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .dashboard-footer {
+            margin-top: 20px;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
+            <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
+        </div>
+        
+        <div class="navbar-nav-links">
+            <a href="/room" class="navbar-nav-item">
+                <i class="fa-solid fa-door-open"></i> Rooms
+            </a>
+            <a href="/admin/students" class="navbar-nav-item">
+                <i class="fa-solid fa-graduation-cap"></i> Students
+            </a>
+            <a href="/return" class="navbar-nav-item">
+                <i class="fa-solid fa-rotate-left"></i> Return
+            </a>
+            <a href="/generate_qr" class="navbar-nav-item">
+                <i class="fa-solid fa-qrcode"></i> Generate QR
+            </a>
+        </div>
+
+        <div class="user-profile-menu-container">
+            <div class="user-dropdown-pill" id="profilePill">
+                <span>admin</span>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.85rem; margin-left: 5px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.65rem; margin-left: 4px;"></i>
+            </div>
+            
+            <div class="dropdown-menu-panel" id="dropdownMenu">
+                <a href="/logout" class="dropdown-item-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <h1 class="page-title">Admin Dashboard</h1>
+
+        <div class="main-layout-container">
+            
+            <div class="left-column">
+                
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <span class="label">Keys Out Now</span>
+                        <span class="number">{{ keys_out_now }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="label">Overdue Keys</span>
+                        <span class="number">{{ overdue_keys }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="label">Total Keys</span>
+                        <span class="number">{{ total_keys }}</span>
+                    </div>
+                </div>
+
+                <div class="actions-group-wrapper">
+                    <div class="action-card" onclick="window.location.href='/return'">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <h3>Return A Key</h3>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='/room'">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>Find Room</h3>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='/generate_qr'">
+                        <i class="fa-solid fa-qrcode"></i>
+                        <h3>Generate QR</h3>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='/admin/students'">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <h3>Add Student</h3>
+                    </div>
+                </div>
+
+                <div class="dashboard-footer">
+                    &copy; 2026 LSPU-LB CCS Department | Internal Use Only
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="alert-feed-card">
+                    <h3>Alert feed</h3>
+                    
+                    {% for alert in alerts %}
+                        <div class="alert-item status-{{ alert.status }}" 
+                             data-status="{{ alert.status }}" 
+                             data-due="{{ alert.due_time }}">
+                            
+                            <i class="fa-solid 
+                               {% if alert.status == 'returned' %}fa-circle-check
+                               {% elif alert.status == 'missing' %}fa-circle-xmark
+                               {% else %}fa-circle-exclamation{% endif %}">
+                            </i>
+                            
+                            <div class="alert-item-content">
+                                <span class="title">{{ alert.message }}</span>
+                                <span class="subtext">Logged Status: {{ alert.created_at }}</span>
+                                {% if alert.status == 'borrowed' and alert.due_time %}
+                                    <span class="countdown-timer">Calculating track parameters...</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert-item">
+                            <div class="alert-item-content">
+                                <span class="subtext">No active notifications found.</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div> 
+    </div>
+
+    <script>
+        const profilePill = document.getElementById('profilePill');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        profilePill.addEventListener('click', function(event) {
+            event.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        function updateTrackedTimers() {
+            const items = document.querySelectorAll('.alert-item');
+            const now = new Date();
+
+            items.forEach(item => {
+                const status = item.getAttribute('data-status');
+                if (status === 'returned' || status === 'missing') return; 
+
+                const dueTimeStr = item.getAttribute('data-due');
+                if (!dueTimeStr) return;
+
+                const dueTime = new Date(dueTimeStr);
+                const timeDiff = dueTime - now; 
+                const timerSpan = item.querySelector('.countdown-timer');
+
+                if (!timerSpan) return;
+
+                if (timeDiff <= 0) {
+                    item.className = "alert-item status-missing";
+                    item.setAttribute('data-status', 'missing');
+                    const icon = item.querySelector('i');
+                    if (icon) icon.className = "fa-solid fa-circle-xmark";
+                    timerSpan.textContent = "OVERDUE / MISSING KEY ALERT!";
+                } else {
+                    const totalSeconds = Math.floor(timeDiff / 1000);
+                    const minutes = Math.floor(totalSeconds / 60);
+                    const seconds = totalSeconds % 60;
+
+                    if (totalSeconds < 900) {
+                        item.className = "alert-item status-borrowed";
+                        timerSpan.textContent = `CLOSING DEADLINE: ${minutes}m ${seconds}s`;
+                    } else {
+                        item.className = "alert-item status-borrowed";
+                        timerSpan.textContent = `Time Remaining: ${minutes}m ${seconds}s`;
+                    }
+                }
+            });
+        }
+
+        setInterval(updateTrackedTimers, 1000);
+        window.addEventListener('DOMContentLoaded', updateTrackedTimers);
+    </script>
+</body>
+</html>

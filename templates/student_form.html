@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Key Borrowing Form</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #F8F9FB; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        form { background: #ffffff; padding: 30px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 15px; }
+        .header { text-align: center; border-bottom: 2px solid #3A78BF; padding-bottom: 15px; margin-bottom: 10px; }
+        h1 { color: #3A78BF; font-size: 1.4rem; margin: 0; }
+        .room-banner { font-size: 1.2rem; font-weight: 700; color: #111827; margin-top: 5px; }
+        label { font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: -10px; }
+        input[type="text"], input[type="datetime-local"], select { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 6px; background: #FAFBFD; box-sizing: border-box; font-size: 1rem; }
+        button { background-color: #3A78BF; color: white; padding: 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        button:hover { background-color: #316BB1; }
+        
+        input[readonly] { background-color: #E5E7EB; color: #4B5563; cursor: not-allowed; border: 1px solid #D1D5DB; }
+
+        .lockout-banner {
+            background-color: #FEE2E2;
+            border: 2px solid #FCA5A5;
+            color: #991B1B;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/student_issue/{{ room_number }}" method="POST">
+        <div class="header">
+            <h1>CCS Laboratory Logging</h1>
+            <div class="room-banner">Key Request Form: {{ room_number }}</div>
+        </div>
+
+        {% if error_message %}
+            <div class="lockout-banner">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <label>Student ID Number:</label>
+        <input type="text" name="id_number" value="{{ session.get('student_id', '') }}" readonly required>
+
+        <label>Your Full Name:</label>
+        <input type="text" value="{{ session.get('username', '') }}" readonly required>
+
+        <label>Current Session Schedule:</label>
+        <select name="schedule" required>
+            <option value="" disabled selected>Select Your Session</option>
+            <option value="Morning Session">Morning Session</option>
+            <option value="Afternoon Session">Afternoon Session</option>
+            <option value="Evening Session">Evening Session</option>
+        </select>
+
+        <label>Professor Assigned:</label>
+        <input type="text" name="professor" placeholder="Prof. Smith" required>
+
+        <label>Your Department:</label>
+        <input type="text" value="CCS" readonly required>
+
+        <label>Class Subject Hours:</label>
+        <input type="text" name="class_hours" placeholder="e.g., 1:00 PM - 4:00 PM" required>
+
+        <label>When will you return this key?</label>
+        <input type="datetime-local" name="return_date" id="return_date" required>
+
+        <button type="submit">Submit Key Request Slip</button>
+    </form>
+
+    <script>
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('return_date').min = now.toISOString().slice(0, 16);
+    </script>
+</body>
+</html>

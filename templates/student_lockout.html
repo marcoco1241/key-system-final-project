@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Blocked - Active Key Penalty</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background-color: #F8F9FB; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 80vh; 
+        }
+        .wrapper { 
+            max-width: 500px; 
+            width: 100%; 
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+        .card { 
+            background: white; 
+            padding: 40px 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            text-align: center;
+            border-top: 5px solid #E63946;
+        }
+        .icon { 
+            font-size: 3.5rem; 
+            color: #E63946; 
+            margin-bottom: 15px; 
+        }
+        h1 { 
+            color: #111827; 
+            font-size: 1.6rem; 
+            margin: 0 0 15px 0; 
+        }
+        p { 
+            color: #555555; 
+            font-size: 0.95rem; 
+            line-height: 1.6; 
+            margin: 0 0 20px 0; 
+        }
+        .room-badge { 
+            background: #E63946; 
+            color: white; 
+            padding: 6px 16px; 
+            border-radius: 4px; 
+            font-weight: 700; 
+            display: inline-block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .logout-btn { 
+            background: #757575; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-decoration: none; 
+            display: inline-block; 
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .logout-btn:hover { 
+            background: #5a5a5a; 
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <div class="icon">⚠️</div>
+            <h1>Clearance Suspended</h1>
+            <p>You cannot request another key right now because your student profile currently holds an unreturned key for:</p>
+            
+            <div class="room-badge">{{ room_number }}</div>
+            
+            <p style="margin-top: 20px; color: #6b7280; font-size: 0.9rem;">
+                Please surrender the physical key to the laboratory admin desk counter. Once the administrator logs your return, your system access will automatically restore.
+            </p>
+            
+            <a href="/logout" class="logout-btn">Exit Student Session</a>
+        </div>
+    </div>
+</body>
+</html>

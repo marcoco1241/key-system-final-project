@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Key</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #F8F9FB;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        form {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        h1 { color: #3A78BF; font-size: 1.5rem; margin-bottom: 5px; }
+        h2 { color: #757575; font-size: 1rem; margin-top: 15px; border: 1px solid #eee; padding-bottom: 5px; }
+        input[type="text"], input[type="datetime-local"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #FAFBFD;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-submit { background-color: #3A78BF; color: white; }
+        .btn-cancel { background-color: #e0e0e0; color: #333; }
+        .flash-msg {
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-align: center;
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/issue" method="POST">
+        <h1>CCS Department | Issue Key</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-msg">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2>Key Details</h2>
+        <input type="text" name="room_number" placeholder="Room # (e.g., Room 112)" required>
+        
+        <select name="schedule" required>
+            <option value="" disabled selected>Select Session Schedule</option>
+            <option value="Morning Session">Morning Session</option>
+            <option value="Afternoon Session">Afternoon Session</option>
+            <option value="Evening Session">Evening Session</option>
+        </select>
+
+        <h2>Borrower & Terms</h2>
+        <input type="text" name="borrower_name" placeholder="Full Name of Borrower" required>
+        <input type="text" name="id_number" placeholder="ID number" required>
+        <input type="text" name="professor" placeholder="Professor Assigned">
+        <input type="text" name="department" placeholder="Department (e.g., CCS)">
+        <input type="text" name="class_hours" placeholder="Class Hours (e.g., 1:00 PM - 4:00 PM)">
+        
+        <label style="font-size: 0.85rem; color:#757575; font-weight:600;">Expected Return Date & Time:</label>
+        <input type="datetime-local" name="return_date" required>
+
+        <div class="btn-group">
+            <button type="button" class="btn-cancel" onclick="window.location.href='/dashboard'">Cancel</button>
+            <button type="submit" class="btn-submit">Issue Key Securely</button>
+        </div>
+    </form>
+
+</body>
+</html>

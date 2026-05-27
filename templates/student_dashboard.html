@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Terminal - Camera Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #F8F9FB; margin: 0; padding: 0; text-align: center; }
+        .wrapper { max-width: 600px; margin: 40px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { color: #3A78BF; margin-bottom: 5px; }
+        .logout-btn { background: #E63946; color: white; padding: 8px 16px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 15px; font-size: 0.85rem; }
+        #reader { width: 100%; max-width: 450px; background: white; margin: 20px auto; border-radius: 8px; overflow: hidden; border: 2px solid #3A78BF !important; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <h1>Student Scanner Terminal</h1>
+            <p style="color:#757575; margin-bottom:20px;">Welcome, <strong>{{ session.get('username') }}</strong>! Scan a room's physical locker QR code to check out a key.</p>
+            
+            <div id="reader"></div>
+
+            <br>
+            <a href="/logout" class="logout-btn">Exit Student Session</a>
+        </div>
+    </div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText.includes('/student_issue/')) {
+                html5QrcodeScanner.clear();
+                window.location.href = decodedText;
+            } else {
+                alert("Invalid Target! Please scan an authorized CCS Laboratory room code.");
+            }
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
