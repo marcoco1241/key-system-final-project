@@ -5,56 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue Key</title>
     <style>
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: #F8F9FB;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
+            padding: 0;
         }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #F4F6F9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: min(40px, 5vw); /* Responsive view container spacing */
+        }
+
         form {
             background: #ffffff;
-            padding: 40px;
+            padding: min(40px, 6vw); /* Fluid internal component breathing room */
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
             width: 100%;
             max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
+            border-top: 4px solid #0d3c7c; /* Links cleanly to your application identity */
         }
-        h1 { color: #3A78BF; font-size: 1.5rem; margin-bottom: 5px; }
-        h2 { color: #757575; font-size: 1rem; margin-top: 15px; border: 1px solid #eee; padding-bottom: 5px; }
-        input[type="text"], input[type="datetime-local"], select {
+
+        h1 { 
+            color: #0d3c7c; 
+            font-size: calc(1.3rem + 0.4vw); 
+            font-weight: 700;
+            margin-bottom: 5px; 
+            line-height: 1.2;
+        }
+
+        h2 { 
+            color: #374151; 
+            font-size: 0.9rem; 
+            margin-top: 10px; 
+            padding-bottom: 6px; 
+            border-bottom: 2px solid #E5E7EB; /* Premium separation rule lines */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }
+
+        .input-block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
+        }
+
+        .input-block label {
+            font-size: 0.8rem; 
+            color: #4B5563; 
+            font-weight: 600;
+        }
+
+        input[type="text"], 
+        input[type="datetime-local"], 
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #D1D5DB;
             border-radius: 6px;
             background: #FAFBFD;
+            font-size: 0.95rem; /* Larger font layout to bypass iOS Safari layout zooming */
+            color: #111827;
+            outline: none;
+            transition: all 0.2s ease;
+            -webkit-appearance: none; /* Uniform resets across platform inputs */
         }
+
+        input[type="text"]:focus, 
+        input[type="datetime-local"]:focus, 
+        select:focus {
+            border-color: #3A78BF;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08);
+        }
+
+        /* Restores native select arrow design parameters lost on standard -webkit appearance resets */
+        select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
         }
+
         button {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
         }
-        .btn-submit { background-color: #3A78BF; color: white; }
-        .btn-cancel { background-color: #e0e0e0; color: #333; }
+
+        .btn-submit { 
+            background-color: #0d3c7c; 
+            color: white; 
+        }
+        .btn-submit:hover { 
+            background-color: #0A2F61; 
+        }
+
+        .btn-cancel { 
+            background-color: #E5E7EB; 
+            color: #374151; 
+        }
+        .btn-cancel:hover { 
+            background-color: #D1D5DB; 
+        }
+
         .flash-msg {
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             font-size: 0.85rem;
+            font-weight: 600;
             text-align: center;
             background-color: #FEE2E2;
             color: #991B1B;
+            border: 1px solid #FCA5A5;
+            width: 100%;
+        }
+
+        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
+        @media (max-width: 480px) {
+            .btn-group {
+                flex-direction: column-reverse; /* Stack cancel action directly under submit on thin layouts */
+                gap: 10px;
+            }
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -72,24 +169,40 @@
         {% endwith %}
 
         <h2>Key Details</h2>
-        <input type="text" name="room_number" placeholder="Room # (e.g., Room 112)" required>
+        <div class="input-block">
+            <input type="text" name="room_number" placeholder="Room # (e.g., comlab 3)" required>
+        </div>
         
-        <select name="schedule" required>
-            <option value="" disabled selected>Select Session Schedule</option>
-            <option value="Morning Session">Morning Session</option>
-            <option value="Afternoon Session">Afternoon Session</option>
-            <option value="Evening Session">Evening Session</option>
-        </select>
+        <div class="input-block">
+            <select name="schedule" required>
+                <option value="" disabled selected>Select Session Schedule</option>
+                <option value="Morning Session">Morning Session</option>
+                <option value="Afternoon Session">Afternoon Session</option>
+                <option value="Evening Session">Evening Session</option>
+            </select>
+        </div>
 
         <h2>Borrower & Terms</h2>
-        <input type="text" name="borrower_name" placeholder="Full Name of Borrower" required>
-        <input type="text" name="id_number" placeholder="ID number" required>
-        <input type="text" name="professor" placeholder="Professor Assigned">
-        <input type="text" name="department" placeholder="Department (e.g., CCS)">
-        <input type="text" name="class_hours" placeholder="Class Hours (e.g., 1:00 PM - 4:00 PM)">
+        <div class="input-block">
+            <input type="text" name="borrower_name" placeholder="Full Name of Borrower" required>
+        </div>
+        <div class="input-block">
+            <input type="text" name="id_number" placeholder="ID number" required>
+        </div>
+        <div class="input-block">
+            <input type="text" name="professor" placeholder="Professor Assigned">
+        </div>
+        <div class="input-block">
+            <input type="text" name="department" placeholder="Department (e.g., CCS)">
+        </div>
+        <div class="input-block">
+            <input type="text" name="class_hours" placeholder="Class Hours (e.g., 1:00 PM - 4:00 PM)">
+        </div>
         
-        <label style="font-size: 0.85rem; color:#757575; font-weight:600;">Expected Return Date & Time:</label>
-        <input type="datetime-local" name="return_date" required>
+        <div class="input-block">
+            <label for="return_date">Expected Return Date & Time:</label>
+            <input type="datetime-local" id="return_date" name="return_date" required>
+        </div>
 
         <div class="btn-group">
             <button type="button" class="btn-cancel" onclick="window.location.href='/dashboard'">Cancel</button>
