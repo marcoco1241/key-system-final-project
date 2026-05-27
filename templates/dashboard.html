@@ -60,63 +60,65 @@
             z-index: 1;
         }
 
-        /* --- Updated Responsive Navbar --- */
+        /* --- 🛠️ Fixed Ultra-Responsive Navbar --- */
         .top-navbar {
             background-color: #ffffff;
-            min-height: 75px;
+            height: 75px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 24px;
+            padding: 0 24px;
             border-bottom: 1px solid #e5e7eb;
             position: relative;
             z-index: 100;
-            flex-wrap: wrap;
+        }
+
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #4B5563;
+            cursor: pointer;
+            padding: 6px;
+            margin-right: 8px;
         }
 
         .navbar-brand-block {
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
+            flex-shrink: 1;
+            min-width: 0;
         }
 
         .navbar-brand-block h1 {
             font-size: 1.1rem;
             font-weight: 700;
             color: #0d3c7c;
-            line-height: 1.2;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .navbar-brand-block h1 span {
             color: #6B7280;
             font-weight: 400;
-            margin: 0 6px;
+            margin: 0 8px;
         }
 
         .navbar-brand-block h2 {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             color: #4B5563;
-        }
-
-        /* Mobile Hamburger Trigger */
-        .menu-toggle-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.4rem;
-            color: #4B5563;
-            cursor: pointer;
-            padding: 4px 8px;
+            display: inline-block;
         }
 
         .navbar-nav-links {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .navbar-nav-item {
@@ -126,7 +128,7 @@
             color: #4B5563;
             font-size: 0.9rem;
             font-weight: 600;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 6px;
             transition: all 0.2s ease;
         }
@@ -139,7 +141,6 @@
         .navbar-nav-item i {
             font-size: 0.95rem;
             color: #6B7280;
-            transition: color 0.2s ease;
         }
 
         .navbar-nav-item:hover i {
@@ -149,14 +150,15 @@
         .user-profile-menu-container {
             position: relative;
             display: inline-block;
+            flex-shrink: 0;
         }
 
         .user-dropdown-pill {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             background-color: #F3F4F6;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 30px;
             border: 1px solid #E5E7EB;
             cursor: pointer;
@@ -169,7 +171,7 @@
         }
 
         .user-dropdown-pill span {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #374151;
         }
@@ -179,7 +181,7 @@
             top: 115%;
             right: 0;
             background-color: #ffffff;
-            min-width: 160px;
+            min-width: 150px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             border-radius: 8px;
             border: 1px solid #E5E7EB;
@@ -201,14 +203,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: background-color 0.2s;
         }
 
         .dropdown-item-link:hover {
             background-color: #FEF2F2;
         }
 
-        /* --- Dashboard Body Constraints --- */
+        /* --- Body Wrapper Layouts --- */
         .dashboard-wrapper {
             padding: min(40px, 5vw);
             max-width: 1400px;
@@ -232,7 +233,7 @@
             display: flex;
             gap: 20px;
             align-items: flex-start;
-            flex-wrap: wrap; /* Allows wrap on smaller break targets */
+            flex-wrap: wrap;
         }
 
         .left-column {
@@ -260,7 +261,7 @@
             border-radius: var(--card-radius);
             box-shadow: var(--card-shadow);
             flex: 1; 
-            min-width: 160px;
+            min-width: 140px;
             display: flex;
             flex-direction: column;
             border: 1px solid #E5E7EB;
@@ -271,11 +272,10 @@
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .stat-card .number {
-            font-size: calc(2rem + 0.8vw);
+            font-size: calc(1.8rem + 0.8vw);
             font-weight: 800;
             line-height: 1.2;
             margin-top: 5px;
@@ -283,7 +283,7 @@
 
         .actions-group-wrapper {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
         }
 
@@ -304,14 +304,13 @@
         }
 
         .action-card i {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 12px;
         }
 
         .action-card h3 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
         .alert-feed-card {
@@ -341,7 +340,7 @@
         }
 
         .alert-item-content {
-            word-break: break-word; /* Prevents long names overflowing text cells */
+            word-break: break-word;
         }
 
         .alert-item-content .title {
@@ -372,16 +371,31 @@
             width: 100%;
         }
 
-        /* --- 📱 MEDIA QUERIES FOR COMPACT BREAKPOINTS --- */
+        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
         @media (max-width: 991px) {
             .right-column {
-                flex: 1 1 100%; /* Push alert feed full width under the modules grid */
+                flex: 1 1 100%;
             }
         }
 
         @media (max-width: 768px) {
             .menu-toggle-btn {
-                display: block; /* Reveal mobile trigger */
+                display: block; /* Reveal hamburger button */
+            }
+
+            .top-navbar {
+                padding: 0 16px;
+                height: 65px; /* Shorter header on mobile */
+            }
+
+            .navbar-brand-block h1 {
+                font-size: 1.0rem; /* Shrink title slightly to guarantee fit */
+            }
+
+            /* Completely hide sub-label from primary alignment row */
+            .navbar-brand-block h1 span, 
+            .navbar-brand-block h2 {
+                display: none; 
             }
 
             .navbar-nav-links {
@@ -393,10 +407,10 @@
                 flex-direction: column;
                 align-items: stretch;
                 gap: 0;
-                padding: 10px 20px;
+                padding: 0;
                 border-bottom: 1px solid #e5e7eb;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-                display: none; /* Controlled by toggle handler class */
+                box-shadow: 0 8px 12px rgba(0,0,0,0.08);
+                display: none;
             }
 
             .navbar-nav-links.active {
@@ -404,35 +418,9 @@
             }
 
             .navbar-nav-item {
-                padding: 12px 16px;
+                padding: 14px 20px;
                 border-radius: 0;
                 border-bottom: 1px solid #f3f4f6;
-            }
-            
-            .navbar-nav-item:last-child {
-                border-bottom: none;
-            }
-
-            .top-navbar {
-                padding: 10px 16px;
-            }
-            
-            .user-profile-menu-container {
-                margin-left: auto;
-                margin-right: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .navbar-brand-block h1 span {
-                display: none; /* Hide separating pipeline character */
-            }
-            .navbar-brand-block h2 {
-                width: 100%;
-                font-size: 0.8rem;
-            }
-            .stat-card {
-                padding: 15px;
             }
         }
     </style>
@@ -440,14 +428,17 @@
 <body>
 
     <nav class="top-navbar">
+        <!-- Flexbox item 1: Hamburger Menu Trigger -->
         <button class="menu-toggle-btn" id="menuToggle" aria-label="Toggle Navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'" style="cursor: pointer;">
-            <h1>LSPU-LB CCS Department <span>|</span> <h2>Admin Portal</h2></h1>
+        <!-- Flexbox item 2: Centered branding text context -->
+        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
+            <h1>LSPU-LB CCS Department<span>|</span><h2>Admin Portal</h2></h1>
         </div>
         
+        <!-- Mobile Dropdown Sidebar Targets -->
         <div class="navbar-nav-links" id="navLinks">
             <a href="/room" class="navbar-nav-item">
                 <i class="fa-solid fa-door-open"></i> Rooms
@@ -463,11 +454,12 @@
             </a>
         </div>
 
+        <!-- Flexbox item 3: Profile Badge Component -->
         <div class="user-profile-menu-container">
             <div class="user-dropdown-pill" id="profilePill">
                 <span>admin</span>
-                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.85rem; margin-left: 5px;"></i>
-                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.65rem; margin-left: 4px;"></i>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.8rem; margin-left: 2px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.6rem; margin-left: 2px;"></i>
             </div>
             
             <div class="dropdown-menu-panel" id="dropdownMenu">
@@ -569,21 +561,18 @@
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        // Toggle user dropdown panel
         profilePill.addEventListener('click', function(event) {
             event.stopPropagation();
             dropdownMenu.classList.toggle('show');
-            navLinks.classList.remove('active'); // Close mobile menu if profile opens
+            navLinks.classList.remove('active');
         });
 
-        // Toggle mobile hamburger menu
         menuToggle.addEventListener('click', function(event) {
             event.stopPropagation();
             navLinks.classList.toggle('active');
-            dropdownMenu.classList.remove('show'); // Close profile if navigation opens
+            dropdownMenu.classList.remove('show');
         });
 
-        // Universal outside click dismissal
         document.addEventListener('click', function(event) {
             if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
                 dropdownMenu.classList.remove('show');
