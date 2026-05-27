@@ -4,89 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminal Blocked - Active Key Penalty</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background-color: #F8F9FB; 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 80vh; 
-        }
-        .wrapper { 
-            max-width: 500px; 
-            width: 100%; 
-            padding: 20px; 
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        body { 
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
+            background-color: #F4F6F9; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: min(20px, 4vw);
+        }
+
+        .wrapper { 
+            width: 100%;
+            max-width: 500px; 
+            margin: 0 auto;
+        }
+
         .card { 
             background: white; 
-            padding: 40px 30px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            padding: min(40px, 8vw) min(30px, 6vw); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
             text-align: center;
             border-top: 5px solid #E63946;
         }
-        .icon { 
-            font-size: 3.5rem; 
-            color: #E63946; 
-            margin-bottom: 15px; 
+
+        .icon-container {
+            margin-bottom: 16px;
         }
+
+        .icon-container i { 
+            font-size: calc(2.5rem + 1vw); 
+            color: #E63946; 
+        }
+
         h1 { 
             color: #111827; 
-            font-size: 1.6rem; 
-            margin: 0 0 15px 0; 
+            font-size: calc(1.35rem + 0.4vw); 
+            font-weight: 700;
+            margin-bottom: 12px; 
+            line-height: 1.2;
         }
+
         p { 
-            color: #555555; 
+            color: #4B5563; 
             font-size: 0.95rem; 
-            line-height: 1.6; 
-            margin: 0 0 20px 0; 
+            line-height: 1.5; 
+            margin-bottom: 20px; 
         }
+
         .room-badge { 
             background: #E63946; 
             color: white; 
-            padding: 6px 16px; 
-            border-radius: 4px; 
+            padding: 8px 20px; 
+            border-radius: 6px; 
             font-weight: 700; 
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.1rem;
             margin-bottom: 5px;
+            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.15);
         }
+
+        .instruction-text {
+            margin-top: 20px; 
+            color: #6B7280; 
+            font-size: 0.88rem;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
         .logout-btn { 
-            background: #757575; 
+            background: #4B5563; 
             color: white; 
-            padding: 10px 20px; 
+            padding: 12px 24px; 
             border: none; 
-            border-radius: 4px; 
+            border-radius: 6px; 
             font-weight: 600; 
             cursor: pointer; 
             text-decoration: none; 
             display: inline-block; 
             font-size: 0.9rem;
-            margin-top: 10px;
+            margin-top: 15px;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            max-width: 250px;
+            -webkit-appearance: none;
         }
         .logout-btn:hover { 
-            background: #5a5a5a; 
+            background: #374151; 
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="card">
-            <div class="icon">⚠️</div>
+            <div class="icon-container">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            
             <h1>Clearance Suspended</h1>
             <p>You cannot request another key right now because your student profile currently holds an unreturned key for:</p>
             
-            <div class="room-badge">{{ room_number }}</div>
+            <div class="room-badge">
+                <i class="fa-solid fa-key"></i> {{ room_number }}
+            </div>
             
-            <p style="margin-top: 20px; color: #6b7280; font-size: 0.9rem;">
+            <p class="instruction-text">
                 Please surrender the physical key to the laboratory admin desk counter. Once the administrator logs your return, your system access will automatically restore.
             </p>
             
-            <a href="/logout" class="logout-btn">Exit Student Session</a>
+            <a href="/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Exit Session</a>
         </div>
     </div>
 </body>
