@@ -19,273 +19,63 @@
             --card-radius: 8px; 
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        a {
-            text-decoration: none;
-            color: #F8F9FB;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        a { text-decoration: none; color: #F8F9FB; }
+        body { font-family: var(--font-stack); background-color: #F8F9FB; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
 
-        body {
-            font-family: var(--font-stack);
-            background-color: #F8F9FB;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
+        .top-navbar { background-color: #ffffff; height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #e5e7eb; position: relative; z-index: 100; }
+        .menu-toggle-btn { display: none; background: none; border: none; font-size: 1.3rem; color: #4B5563; cursor: pointer; padding: 6px; margin-right: 8px; }
 
-        /* --- 🛠️ Fixed Ultra-Responsive Navbar System --- */
-        .top-navbar {
-            background-color: #ffffff;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #e5e7eb;
-            position: relative;
-            z-index: 100;
-        }
+        .navbar-brand-block { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+        .brand-text-container { display: flex; align-items: center; gap: 6px; }
+        .navbar-brand-block h1 { font-size: 1.1rem; font-weight: 700; color: #0d3c7c; margin: 0; }
+        .navbar-brand-block .divider { color: #6B7280; font-weight: 400; margin: 0 4px; }
+        .navbar-brand-block h2 { font-size: 0.95rem; font-weight: 500; color: #4B5563; margin: 0; }
 
-        .menu-toggle-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: #4B5563;
-            cursor: pointer;
-            padding: 6px;
-            margin-right: 8px;
-        }
+        .navbar-nav-links { display: flex; align-items: center; gap: 8px; }
+        .navbar-nav-item { display: flex; align-items: center; gap: 8px; color: #4B5563; font-size: 0.9rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: all 0.2s ease; }
+        .navbar-nav-item:hover { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item i { font-size: 0.95rem; color: #6B7280; }
+        .navbar-nav-item:hover i { color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav i { color: var(--keynexus-blue); }
 
-        .navbar-brand-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            flex-shrink: 1;
-            min-width: 0;
-        }
+        .user-profile-menu-container { position: relative; display: inline-block; flex-shrink: 0; }
+        .user-dropdown-pill { display: flex; align-items: center; gap: 6px; background-color: #F3F4F6; padding: 6px 12px; border-radius: 30px; border: 1px solid #E5E7EB; cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .user-dropdown-pill:hover { background-color: #E5E7EB; }
+        .user-dropdown-pill span { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .dropdown-menu-panel { position: absolute; top: 115%; right: 0; background-color: #ffffff; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; border: 1px solid #E5E7EB; overflow: hidden; display: none; flex-direction: column; z-index: 1000; }
+        .dropdown-menu-panel.show { display: flex; }
+        .dropdown-item-link { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #E63946; display: flex; align-items: center; gap: 10px; }
+        .dropdown-item-link:hover { background-color: #FEF2F2; }
 
-        .navbar-brand-block h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0d3c7c;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .navbar-brand-block h1 span {
-            color: #6B7280;
-            font-weight: 400;
-            margin: 0 8px;
-        }
-
-        .navbar-brand-block h2 {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #4B5563;
-            display: inline-block;
-        }
-
-        .navbar-nav-links {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navbar-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #4B5563;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 8px 14px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-nav-item:hover {
-            background-color: #F3F4F6;
-            color: var(--keynexus-blue);
-        }
-
-        .navbar-nav-item i {
-            font-size: 0.95rem;
-            color: #6B7280;
-        }
-
-        .navbar-nav-item:hover i {
-            color: var(--keynexus-blue);
-        }
-
-        .user-profile-menu-container {
-            position: relative;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .user-dropdown-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #F3F4F6;
-            padding: 6px 12px;
-            border-radius: 30px;
-            border: 1px solid #E5E7EB;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-        }
-
-        .user-dropdown-pill:hover {
-            background-color: #E5E7EB;
-        }
-
-        .user-dropdown-pill span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .dropdown-menu-panel {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background-color: #ffffff;
-            min-width: 150px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            border: 1px solid #E5E7EB;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .dropdown-menu-panel.show {
-            display: flex;
-        }
-
-        .dropdown-item-link {
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #E63946;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dropdown-item-link:hover {
-            background-color: #FEF2F2;
-        }
-
-        /* --- Main Component Workspace --- */
-        main {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: min(40px, 6vw);
-            box-sizing: border-box;
-            flex: 1;
-        }
-
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
+        main { max-width: 1200px; width: 100%; margin: 0 auto; padding: min(40px, 6vw); box-sizing: border-box; flex: 1; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
         h1 { margin: 0; font-size: calc(1.4rem + 0.5vw); font-weight: 700; color: #111827; }
 
-        .controls { 
-            display: flex; 
-            gap: 10px; 
-            flex-wrap: wrap;
-            width: auto;
-        }
+        .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        input[type="text"], select { padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.95rem; background: white; outline: none; color: #111827; transition: border-color 0.2s; }
+        input[type="text"]:focus, select:focus { border-color: var(--keynexus-blue); }
+        input[type="text"] { width: 230px; }
+        select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>"); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; padding-right: 35px; -webkit-appearance: none; }
 
-        input[type="text"], select {
-            padding: 10px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 0.95rem; /* Prevents auto-zoom scaling on small viewports */
-            background: white;
-            outline: none;
-            color: #111827;
-            transition: border-color 0.2s;
-        }
-        input[type="text"]:focus, select:focus {
-            border-color: var(--keynexus-blue);
-        }
+        .btn-add-room { padding: 10px 16px; background-color: #0d3c7c; color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background-color 0.2s; }
+        .btn-add-room:hover { background-color: #0A2F61; }
 
-        input[type="text"] { width: 260px; }
-
-        /* Custom design injection for modern select arrows across device systems */
-        select {
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 14px;
-            padding-right: 35px;
-            -webkit-appearance: none;
-        }
-
-        /* --- Responsive Structural Data Log Wrapper --- */
-        .table-responsive-wrapper {
-            width: 100%;
-            background: white;
-            border-radius: var(--card-radius);
-            box-shadow: var(--card-shadow);
-            border: 1px solid #e5e7eb;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .table-responsive-wrapper { width: 100%; background: white; border-radius: var(--card-radius); box-shadow: var(--card-shadow); border: 1px solid #e5e7eb; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { padding: 16px; text-align: left; border-bottom: 1px solid #edf2f7; }
         th { background-color: #f9fafb; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #6b7280; letter-spacing: 0.5px; }
         
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
+        .badge { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
         .bg-emerald { background: #def7ec; color: #03543f; }
         .bg-amber { background: #fef3c7; color: #92400e; }
         .bg-red { background: #fde8e8; color: #9b1c1c; }
         .bg-purple { background: #f3e8ff; color: #5b21b6; }
         .bg-orange { background: #fffaf0; color: #dd6b20; border: 1px solid #fbd38d; }
 
-        .btn-action {
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: background-color 0.2s ease;
-        }
+        .actions-cell-inline { display: flex; gap: 6px; justify-content: flex-end; align-items: center; }
+        .btn-action { padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: background-color 0.2s ease; }
         .btn-blue { background: #e1effe; color: #1e429f; }
         .btn-blue:hover { background: #bcdaff; }
         .btn-green { background: #def7ec; color: #03543f; }
@@ -294,122 +84,29 @@
         .btn-orange:hover { background: #fbd38d; }
         .btn-purple { background: #e9d8fd; color: #6b46c1; }
         .btn-purple:hover { background: #d6bbf7; }
+        .btn-trash { background: #FEE2E2; color: #E63946; }
+        .btn-trash:hover { background: #FCA5A5; }
 
-        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .menu-toggle-btn {
-                display: block; 
-            }
+            .menu-toggle-btn { display: block; }
+            .top-navbar { padding: 0 16px; height: 65px; }
+            .navbar-brand-block h1 { font-size: 1.0rem; }
+            .navbar-brand-block .divider, .navbar-brand-block h2 { display: none; }
+            .navbar-nav-links { position: absolute; top: 100%; left: 0; width: 100%; background-color: #ffffff; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border-bottom: 1px solid #e5e7eb; box-shadow: 0 8px 12px rgba(0,0,0,0.08); display: none; }
+            .navbar-nav-links.active { display: flex; }
+            .navbar-nav-item { padding: 14px 20px; border-radius: 0; border-bottom: 1px solid #f3f4f6; }
 
-            .top-navbar {
-                padding: 0 16px;
-                height: 65px; 
-            }
+            .controls { width: 100%; flex-direction: column; align-items: stretch; gap: 10px; }
+            input[type="text"], select, .btn-add-room { width: 100%; justify-content: center; }
 
-            .navbar-brand-block h1 {
-                font-size: 1.0rem; 
-            }
-
-            .navbar-brand-block h1 span, 
-            .navbar-brand-block h2 {
-                display: none; 
-            }
-
-            .navbar-nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #ffffff;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0;
-                padding: 0;
-                border-bottom: 1px solid #e5e7eb;
-                box-shadow: 0 8px 12px rgba(0,0,0,0.08);
-                display: none;
-            }
-
-            .navbar-nav-links.active {
-                display: flex;
-            }
-
-            .navbar-nav-item {
-                padding: 14px 20px;
-                border-radius: 0;
-                border-bottom: 1px solid #f3f4f6;
-            }
-
-            .controls {
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-
-            input[type="text"] {
-                width: 100%;
-            }
-
-            /* 🎴 Morphing dense row queries into stackable layout profile blocks on mobile screens */
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
-            
-            thead tr { 
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            
-            tr { 
-                border: 1px solid #e5e7eb;
-                border-radius: var(--card-radius);
-                margin-bottom: 15px;
-                padding: 12px;
-                background: #ffffff;
-                box-shadow: var(--card-shadow);
-            }
-            
-            td { 
-                border: none;
-                border-bottom: 1px solid #f3f4f6; 
-                position: relative;
-                padding-left: 45%; 
-                text-align: right;
-                font-size: 0.9rem;
-                padding-top: 12px;
-                padding-bottom: 12px;
-            }
-
-            td:last-child {
-                border-bottom: none;
-                padding-bottom: 5px;
-                text-align: right;
-                display: flex;
-                justify-content: flex-end;
-            }
-            
-            td:before { 
-                position: absolute;
-                top: 13px;
-                left: 12px;
-                width: 40%; 
-                padding-right: 10px; 
-                white-space: nowrap;
-                text-align: left;
-                font-weight: 700;
-                text-transform: uppercase;
-                font-size: 0.72rem;
-                color: #6b7280;
-                content: attr(data-label);
-            }
-
-            .btn-action {
-                width: 100%;
-                justify-content: center;
-                padding: 12px;
-            }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            tr { border: 1px solid #e5e7eb; border-radius: var(--card-radius); margin-bottom: 15px; padding: 12px; background: #ffffff; box-shadow: var(--card-shadow); }
+            td { border: none; border-bottom: 1px solid #f3f4f6; position: relative; padding-left: 45%; text-align: right; font-size: 0.9rem; padding-top: 12px; padding-bottom: 12px; }
+            td:last-child { border-bottom: none; padding-bottom: 5px; display: flex; justify-content: flex-end; }
+            td:before { position: absolute; top: 13px; left: 12px; width: 40%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: 700; text-transform: uppercase; font-size: 0.72rem; color: #6b7280; content: attr(data-label); }
+            .btn-action { width: 100%; justify-content: center; padding: 12px; }
+            .actions-cell-inline { width: 100%; flex-direction: column; }
         }
     </style>
 </head>
@@ -421,12 +118,19 @@
         </button>
 
         <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
-            <h1>LSPU-LB CCS Department<span>|</span><h2>Admin Portal</h2></h1>
+            <div class="brand-text-container">
+                <h1>LSPU-LB CCS Department</h1>
+                <span class="divider">|</span>
+                <h2>Admin Portal</h2>
+            </div>
         </div>
         
         <div class="navbar-nav-links" id="navLinks">
-            <a href="/room" class="navbar-nav-item" style="background-color: #F3F4F6; color: var(--keynexus-blue);">
-                <i class="fa-solid fa-door-open" style="color: var(--keynexus-blue);"></i> Rooms
+            <a href="/dashboard" class="navbar-nav-item">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="/room" class="navbar-nav-item active-nav">
+                <i class="fa-solid fa-door-open"></i> Rooms
             </a>
             <a href="/admin/students" class="navbar-nav-item">
                 <i class="fa-solid fa-graduation-cap"></i> Students
@@ -462,6 +166,7 @@
             </div>
             
             <div class="controls">
+                <button class="btn-add-room" onclick="triggerRoomCreation()"><i class="fa-solid fa-circle-plus"></i> Add New Room</button>
                 <input type="text" id="searchInput" oninput="loadRooms()" placeholder="Search room, borrower name...">
                 <select id="statusFilter" onchange="loadRooms()">
                     <option>All Statuses</option>
@@ -486,8 +191,7 @@
                         <th style="text-align: right;">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="roomTableBody">
-                </tbody>
+                <tbody id="roomTableBody"></tbody>
             </table>
         </div>
     </main>
@@ -498,26 +202,45 @@
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        profilePill.addEventListener('click', function(event) {
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-            navLinks.classList.remove('active');
-        });
-
-        menuToggle.addEventListener('click', function(event) {
-            event.stopPropagation();
-            navLinks.classList.toggle('active');
-            dropdownMenu.classList.remove('show');
-        });
-
+        profilePill.addEventListener('click', function(event) { event.stopPropagation(); dropdownMenu.classList.toggle('show'); navLinks.classList.remove('active'); });
+        menuToggle.addEventListener('click', function(event) { event.stopPropagation(); navLinks.classList.toggle('active'); dropdownMenu.classList.remove('show'); });
         document.addEventListener('click', function(event) {
-            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
-                navLinks.classList.remove('active');
-            }
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) { dropdownMenu.classList.remove('show'); }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) { navLinks.classList.remove('active'); }
         });
+
+        async function triggerRoomCreation() {
+            const nameInput = prompt("Enter Unique Room / Facility Name Identifier:\n(e.g., Comlab 4)");
+            if (!nameInput || !nameInput.trim()) return;
+
+            const fd = new FormData();
+            fd.append('room_name', nameInput.trim());
+
+            try {
+                const res = await fetch('/api/add_room', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✓ Facility "${nameInput}" successfully deployed to database registry.`);
+                    loadRooms();
+                } else { alert("Generation Blocked: " + data.error); }
+            } catch (err) { console.error(err); }
+        }
+
+        async function dropRoomEntity(roomName) {
+            if (!confirm(`⚠️ WARNING: Remove "${roomName}" from tracking? Active transactions will clear.`)) return;
+
+            const fd = new FormData();
+            fd.append('room_name', roomName);
+
+            try {
+                const res = await fetch('/api/delete_room', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`✓ "${roomName}" removed.`);
+                    loadRooms();
+                } else { alert("Action failed: " + data.error); }
+            } catch (err) { console.error(err); }
+        }
 
         async function loadRooms() {
             const search = document.getElementById('searchInput').value;
@@ -553,7 +276,6 @@
                         actionButton = `<button class="btn-action btn-purple" onclick="confirmKeyRepair('${escapeJs(item.room)}')"><i class="fa-solid fa-wrench"></i> Log Repair</button>`;
                     }
 
-                    // JavaScript-driven custom label injection to handle text mapping constraints seamlessly on card layouts
                     tableBody.innerHTML += `
                         <tr>
                             <td data-label="Room / Facility" style="font-weight:600; color:#111827;">${escapeHtml(item.room)}</td>
@@ -561,64 +283,39 @@
                             <td data-label="Availability Status"><span class="badge ${badgeClass}">${item.status}</span></td>
                             <td data-label="Current Holder" style="font-weight:500;">${escapeHtml(item.holder)}</td>
                             <td data-label="Time Logs" style="color:#6b7280; font-size:0.85rem;">${escapeHtml(item.time_logs)}</td>
-                            <td data-label="Actions">${actionButton}</td>
+                            <td data-label="Actions">
+                                <div class="actions-cell-inline">
+                                    ${actionButton}
+                                    <button class="btn-action btn-trash" onclick="dropRoomEntity('${escapeJs(item.room)}')"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
                         </tr>`;
                 });
-            } catch (err) {
-                console.error("Failed to query unique room data structures: ", err);
-            }
+            } catch (err) { console.error("Failed to query unique room data structures: ", err); }
         }
 
         async function confirmLostReplacement(roomNum) {
-            const warningMessage = `CONFIRM REPLACEMENT: Has a new duplicate/master key been successfully coded and cut to replace the lost key for ${roomNum}? This will unlock the lockdown status and make it Available again.`;
-            
-            if (confirm(warningMessage)) {
+            if (confirm(`Has a master key been cut to replace the lost key for ${roomNum}?`)) {
                 try {
-                    const response = await fetch(`/api/replace_lost/${encodeURIComponent(roomNum)}`, { method: 'POST' });
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert(`Success! ${roomNum} status reset to Available using master/duplicate replacement key.`);
-                        loadRooms();
-                    } else {
-                        alert("Error: " + result.error);
-                    }
-                } catch (err) {
-                    console.error("Failed to process lost replacement workflow:", err);
-                }
+                    const res = await fetch(`/api/replace_lost/${encodeURIComponent(roomNum)}`, { method: 'POST' });
+                    const result = await res.json();
+                    if (result.success) { loadRooms(); } else { alert(result.error); }
+                } catch (err) { console.error(err); }
             }
         }
 
         async function confirmKeyRepair(roomNum) {
-            const warningMessage = `Are you sure the key for ${roomNum} has been completely repaired, straightened, and is ready to be stored back in the locker?`;
-            
-            if (confirm(warningMessage)) {
+            if (confirm(`Confirm key for ${roomNum} is ready to go back into the locker?`)) {
                 try {
-                    const response = await fetch(`/api/repair_done/${encodeURIComponent(roomNum)}`, { method: 'POST' });
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert(`Success! ${roomNum} key status updated to Available.`);
-                        loadRooms();
-                    } else {
-                        alert("Error: " + result.error);
-                    }
-                } catch (err) {
-                    console.error("Failed to submit repair completion tracking log:", err);
-                }
+                    const res = await fetch(`/api/repair_done/${encodeURIComponent(roomNum)}`, { method: 'POST' });
+                    const result = await res.json();
+                    if (result.success) { loadRooms(); } else { alert(result.error); }
+                } catch (err) { console.error(err); }
             }
         }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        function escapeJs(str) {
-            if (!str) return '';
-            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
-        }
-
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        function escapeJs(str) { if (!str) return ''; return str.replace(/'/g, "\\'").replace(/"/g, '\\"'); }
         window.onload = loadRooms;
     </script>
 </body>
