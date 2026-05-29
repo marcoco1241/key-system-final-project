@@ -19,275 +19,55 @@
             --card-radius: 8px; 
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        a {
-            text-decoration: none;
-            color: #F8F9FB;
-        }
-        body {
-            font-family: var(--font-stack);
-            background-color: #F8F9FB;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        a { text-decoration: none; color: #F8F9FB; }
+        body { font-family: var(--font-stack); background-color: #F8F9FB; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
 
-        /* --- 🛠️ Fixed Ultra-Responsive Navbar System --- */
-        .top-navbar {
-            background-color: #ffffff;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #e5e7eb;
-            position: relative;
-            z-index: 100;
-        }
+        .top-navbar { background-color: #ffffff; height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #e5e7eb; position: relative; z-index: 100; }
+        .menu-toggle-btn { display: none; background: none; border: none; font-size: 1.3rem; color: #4B5563; cursor: pointer; padding: 6px; margin-right: 8px; }
 
-        .menu-toggle-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: #4B5563;
-            cursor: pointer;
-            padding: 6px;
-            margin-right: 8px;
-        }
+        .navbar-brand-block { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+        .brand-text-container { display: flex; align-items: center; gap: 6px; }
+        .navbar-brand-block h1 { font-size: 1.1rem; font-weight: 700; color: #0d3c7c; margin: 0; }
+        .navbar-brand-block .divider { color: #6B7280; font-weight: 400; margin: 0 4px; }
+        .navbar-brand-block h2 { font-size: 0.95rem; font-weight: 500; color: #4B5563; margin: 0; }
 
-        .navbar-brand-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            flex-shrink: 1;
-            min-width: 0;
-        }
+        .navbar-nav-links { display: flex; align-items: center; gap: 8px; }
+        .navbar-nav-item { display: flex; align-items: center; gap: 8px; color: #4B5563; font-size: 0.9rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: all 0.2s ease; }
+        .navbar-nav-item:hover { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item i { font-size: 0.95rem; color: #6B7280; }
+        .navbar-nav-item:hover i { color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav i { color: var(--keynexus-blue); }
 
-        .navbar-brand-block h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0d3c7c;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .user-profile-menu-container { position: relative; display: inline-block; flex-shrink: 0; }
+        .user-dropdown-pill { display: flex; align-items: center; gap: 6px; background-color: #F3F4F6; padding: 6px 12px; border-radius: 30px; border: 1px solid #E5E7EB; cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .user-dropdown-pill:hover { background-color: #E5E7EB; }
+        .user-dropdown-pill span { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .dropdown-menu-panel { position: absolute; top: 115%; right: 0; background-color: #ffffff; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; border: 1px solid #E5E7EB; overflow: hidden; display: none; flex-direction: column; z-index: 1000; }
+        .dropdown-menu-panel.show { display: flex; }
+        .dropdown-item-link { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #E63946; display: flex; align-items: center; gap: 10px; }
+        .dropdown-item-link:hover { background-color: #FEF2F2; }
 
-        .navbar-brand-block h1 span {
-            color: #6B7280;
-            font-weight: 400;
-            margin: 0 8px;
-        }
-
-        .navbar-brand-block h2 {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #4B5563;
-            display: inline-block;
-        }
-
-        .navbar-nav-links {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navbar-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #4B5563;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 8px 14px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-nav-item:hover {
-            background-color: #F3F4F6;
-            color: var(--keynexus-blue);
-        }
-
-        .navbar-nav-item i {
-            font-size: 0.95rem;
-            color: #6B7280;
-        }
-
-        .navbar-nav-item:hover i {
-            color: var(--keynexus-blue);
-        }
-
-        .user-profile-menu-container {
-            position: relative;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .user-dropdown-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #F3F4F6;
-            padding: 6px 12px;
-            border-radius: 30px;
-            border: 1px solid #E5E7EB;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-        }
-
-        .user-dropdown-pill:hover {
-            background-color: #E5E7EB;
-        }
-
-        .user-dropdown-pill span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .dropdown-menu-panel {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background-color: #ffffff;
-            min-width: 150px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            border: 1px solid #E5E7EB;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .dropdown-menu-panel.show {
-            display: flex;
-        }
-
-        .dropdown-item-link {
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #E63946;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dropdown-item-link:hover {
-            background-color: #FEF2F2;
-        }
-
-        /* --- Page Layout Components --- */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: min(40px, 5vw);
-            width: 100%;
-        }
-
-        .container {
-            background: #ffffff;
-            padding: min(40px, 6vw);
-            border-radius: var(--card-radius);
-            box-shadow: var(--card-shadow);
-            width: 100%;
-            max-width: 550px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            border: 1px solid #e5e7eb;
-        }
+        main { flex: 1; display: flex; justify-content: center; align-items: center; padding: min(40px, 5vw); width: 100%; }
+        .container { background: #ffffff; padding: min(40px, 6vw); border-radius: var(--card-radius); box-shadow: var(--card-shadow); width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 20px; border: 1px solid #e5e7eb; }
         
-        .logo-header-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 5px;
-        }
-        .logo-header-container img {
-            height: min(65px, 14vw);
-            width: min(65px, 14vw);
-            object-fit: contain;
-            border-radius: 50%;
-        }
-        .header-titles {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        .logo-header-container { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 5px; }
+        .logo-header-container img { height: min(65px, 14vw); width: min(65px, 14vw); object-fit: contain; border-radius: 50%; }
+        .header-titles { text-align: center; margin-bottom: 10px; }
         h1 { color: #111827; font-size: calc(1.3rem + 0.3vw); margin: 0; font-weight: 700; }
         .sub-banner-text { color: #3A78BF; font-size: 0.9rem; font-weight: 600; margin-top: 4px; }
 
-        .condition-warning-banner {
-            display: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 10px;
-            line-height: 1.4;
-        }
+        .condition-warning-banner { display: none; padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; text-align: center; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; line-height: 1.4; }
         .banner-damaged { background-color: #F3E8FF; color: #5B21B6; border: 1px solid #C084FC; }
         .banner-lost { background-color: #FEEBC8; color: #C05621; border: 1px solid #FBD38D; }
 
         label { font-size: 0.8rem; font-weight: 700; color: #4B5563; text-transform: uppercase; display: block; margin-bottom: 6px; letter-spacing: 0.3px; }
-        
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            background: #FAFBFD;
-            box-sizing: border-box;
-            font-size: 0.95rem; /* Prevents mobile browser auto-zoom overrides */
-            color: #111827;
-            outline: none;
-            transition: all 0.2s;
-            -webkit-appearance: none;
-        }
-        input[type="text"]:focus, select:focus, textarea:focus {
-            border-color: #3A78BF;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08);
-        }
+        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #FAFBFD; box-sizing: border-box; font-size: 0.95rem; color: #111827; outline: none; transition: all 0.2s; -webkit-appearance: none; }
+        input[type="text"]:focus, select:focus, textarea:focus { border-color: #3A78BF; background-color: #ffffff; box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08); }
 
-        /* Restores clean arrow dropdown design on non-desktop frameworks */
-        select {
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-
-        .log-box {
-            background-color: #F0F4F8;
-            border-left: 4px solid #3A78BF;
-            padding: 15px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
-            word-break: break-word;
-        }
+        select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 40px; }
+        .log-box { background-color: #F0F4F8; border-left: 4px solid #3A78BF; padding: 15px; border-radius: 4px; font-size: 0.9rem; display: none; flex-direction: column; gap: 8px; margin-top: 10px; word-break: break-word; }
         .status-badge { font-weight: 700; }
         .text-red { color: #E63946; }
         .text-amber { color: #D97706; }
@@ -295,69 +75,22 @@
         
         .btn-group { display: flex; gap: 12px; margin-top: 15px; }
         button { flex: 1; padding: 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s ease; }
-        
         .btn-submit { background-color: #0d3c7c; color: white; }
         .btn-submit:hover { background-color: #0A2F61; }
         .btn-submit:disabled { background-color: #cccccc; cursor: not-allowed; }
-        
         .btn-cancel { background-color: #e5e7eb; color: #4b5563; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
         .btn-cancel:hover { background-color: #d1d5db; }
 
-        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .menu-toggle-btn {
-                display: block; 
-            }
-
-            .top-navbar {
-                padding: 0 16px;
-                height: 65px; 
-            }
-
-            .navbar-brand-block h1 {
-                font-size: 1.0rem; 
-            }
-
-            .navbar-brand-block h1 span, 
-            .navbar-brand-block h2 {
-                display: none; 
-            }
-
-            .navbar-nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #ffffff;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0;
-                padding: 0;
-                border-bottom: 1px solid #e5e7eb;
-                box-shadow: 0 8px 12px rgba(0,0,0,0.08);
-                display: none;
-            }
-
-            .navbar-nav-links.active {
-                display: flex;
-            }
-
-            .navbar-nav-item {
-                padding: 14px 20px;
-                border-radius: 0;
-                border-bottom: 1px solid #f3f4f6;
-            }
+            .menu-toggle-btn { display: block; }
+            .top-navbar { padding: 0 16px; height: 65px; }
+            .navbar-brand-block h1 { font-size: 1.0rem; }
+            .navbar-brand-block .divider, .navbar-brand-block h2 { display: none; }
+            .navbar-nav-links { position: absolute; top: 100%; left: 0; width: 100%; background-color: #ffffff; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border-bottom: 1px solid #e5e7eb; box-shadow: 0 8px 12px rgba(0,0,0,0.08); display: none; }
+            .navbar-nav-links.active { display: flex; }
+            .navbar-nav-item { padding: 14px 20px; border-radius: 0; border-bottom: 1px solid #f3f4f6; }
         }
-
-        @media (max-width: 480px) {
-            .btn-group {
-                flex-direction: column-reverse; /* Stacks button inputs cleanly on small hardware viewports */
-                gap: 10px;
-            }
-            button {
-                width: 100%;
-            }
-        }
+        @media (max-width: 480px) { .btn-group { flex-direction: column-reverse; gap: 10px; } button { width: 100%; } }
     </style>
 </head>
 <body>
@@ -368,18 +101,25 @@
         </button>
 
         <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
-            <h1>LSPU-LB CCS Department<span>|</span><h2>Admin Portal</h2></h1>
+            <div class="brand-text-container">
+                <h1>LSPU-LB CCS Department</h1>
+                <span class="divider">|</span>
+                <h2>Admin Portal</h2>
+            </div>
         </div>
         
         <div class="navbar-nav-links" id="navLinks">
+            <a href="/dashboard" class="navbar-nav-item">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
             <a href="/room" class="navbar-nav-item">
                 <i class="fa-solid fa-door-open"></i> Rooms
             </a>
             <a href="/admin/students" class="navbar-nav-item">
                 <i class="fa-solid fa-graduation-cap"></i> Students
             </a>
-            <a href="/return" class="navbar-nav-item" style="background-color: #F3F4F6; color: var(--keynexus-blue);">
-                <i class="fa-solid fa-rotate-left" style="color: var(--keynexus-blue);"></i> Return
+            <a href="/return" class="navbar-nav-item active-nav">
+                <i class="fa-solid fa-rotate-left"></i> Return
             </a>
             <a href="/generate_qr" class="navbar-nav-item">
                 <i class="fa-solid fa-qrcode"></i> Generate QR
@@ -437,7 +177,6 @@
                         <option value="Damaged">Damaged / Bent (Send for Repair Out of Service)</option>
                         <option value="Lost">Lost / Missing (Lockdown - Requires Duplicate Master)</option>
                     </select>
-                    
                     <div id="warningBanner" class="condition-warning-banner"></div>
                 </div>
 
@@ -460,25 +199,11 @@
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        profilePill.addEventListener('click', function(event) {
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-            navLinks.classList.remove('active');
-        });
-
-        menuToggle.addEventListener('click', function(event) {
-            event.stopPropagation();
-            navLinks.classList.toggle('active');
-            dropdownMenu.classList.remove('show');
-        });
-
+        profilePill.addEventListener('click', function(event) { event.stopPropagation(); dropdownMenu.classList.toggle('show'); navLinks.classList.remove('active'); });
+        menuToggle.addEventListener('click', function(event) { event.stopPropagation(); navLinks.classList.toggle('active'); dropdownMenu.classList.remove('show'); });
         document.addEventListener('click', function(event) {
-            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
-                navLinks.classList.remove('active');
-            }
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) { dropdownMenu.classList.remove('show'); }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) { navLinks.classList.remove('active'); }
         });
 
         async function liveSearchActiveLog() {
@@ -488,11 +213,9 @@
             const feedback = document.getElementById('searchFeedback');
 
             if (!inputVal) {
-                logBox.style.display = "none";
-                confirmBtn.disabled = true;
+                logBox.style.display = "none"; confirmBtn.disabled = true;
                 feedback.innerText = "Type an active room location string to fetch borrowing history data...";
-                feedback.style.color = "#757575";
-                return;
+                feedback.style.color = "#757575"; return;
             }
 
             try {
@@ -507,26 +230,17 @@
                     
                     const statusLbl = document.getElementById('lblStatus');
                     if (log.is_overdue) {
-                        statusLbl.className = "status-badge text-red";
-                        statusLbl.innerText = "⚠️ Overdue Return Alert";
+                        statusLbl.className = "status-badge text-red"; statusLbl.innerText = "⚠️ Overdue Return Alert";
                     } else {
-                        statusLbl.className = "status-badge text-amber";
-                        statusLbl.innerText = "⏳ Active Borrowing Hold";
+                        statusLbl.className = "status-badge text-amber"; statusLbl.innerText = "⏳ Active Borrowing Hold";
                     }
-
-                    logBox.style.display = "flex";
-                    confirmBtn.disabled = false;
-                    feedback.innerText = "✓ Active record match successfully loaded.";
-                    feedback.style.color = "#10B981";
+                    logBox.style.display = "flex"; confirmBtn.disabled = false;
+                    feedback.innerText = "✓ Active record match successfully loaded."; feedback.style.color = "#10B981";
                 } else {
-                    logBox.style.display = "none";
-                    confirmBtn.disabled = true;
-                    feedback.innerText = "❌ No active borrowing logs found for this room location.";
-                    feedback.style.color = "#E63946";
+                    logBox.style.display = "none"; confirmBtn.disabled = true;
+                    feedback.innerText = "❌ No active borrowing logs found for this room location."; feedback.style.color = "#E63946";
                 }
-            } catch (err) {
-                console.error("AJAX integration engine error: ", err);
-            }
+            } catch (err) { console.error("AJAX integration engine error: ", err); }
         }
 
         function evaluateConditionState() {
@@ -542,9 +256,7 @@
                 banner.className = "condition-warning-banner banner-lost";
                 banner.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> CRITICAL: Key flagged as LOST! Duplicate master override tracking enabled.`;
                 banner.style.display = 'flex';
-            } else {
-                banner.style.display = 'none';
-            }
+            } else { banner.style.display = 'none'; }
         }
     </script>
 </body>
