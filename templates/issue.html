@@ -4,211 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue Key</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --light-gray-bg: #F4F6F9;
+            --white-card: #FFFFFF;
+            --keynexus-blue: #3A78BF;
+            --text-black: #000000;
+            --text-sub: #757575; 
+            --alert-red: #E63946;
+            --status-green: #2A9D8F;
+            --font-stack: 'Segoe UI', Roboto, system-ui, sans-serif;
+            --card-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            --card-radius: 8px; 
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        a { text-decoration: none; color: #F8F9FB; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #F4F6F9;
+            font-family: var(--font-stack);
+            background-color: var(--light-gray-bg);
+            color: var(--text-black);
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: min(40px, 5vw); /* Responsive view container spacing */
-        }
-
-        form {
-            background: #ffffff;
-            padding: min(40px, 6vw); /* Fluid internal component breathing room */
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            width: 100%;
-            max-width: 500px;
-            display: flex;
             flex-direction: column;
-            gap: 16px;
-            border-top: 4px solid #0d3c7c; /* Links cleanly to your application identity */
+            position: relative;
+            overflow-x: hidden;
         }
 
-        h1 { 
-            color: #0d3c7c; 
-            font-size: calc(1.3rem + 0.4vw); 
-            font-weight: 700;
-            margin-bottom: 5px; 
-            line-height: 1.2;
+        body::after {
+            content: ""; position: fixed; bottom: -120px; right: -120px; width: min(700px, 80vw); height: min(700px, 80vw);
+            background-image: url("{{ url_for('static', filename='LSPU-LOGO.jpg') }}"); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.06; pointer-events: none; z-index: 1;
         }
 
-        h2 { 
-            color: #374151; 
-            font-size: 0.9rem; 
-            margin-top: 10px; 
-            padding-bottom: 6px; 
-            border-bottom: 2px solid #E5E7EB; /* Premium separation rule lines */
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-        }
+        .top-navbar { background-color: #ffffff; height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #e5e7eb; position: relative; z-index: 100; }
+        .menu-toggle-btn { display: none; background: none; border: none; font-size: 1.3rem; color: #4B5563; cursor: pointer; padding: 6px; margin-right: 8px; }
 
-        .input-block {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            width: 100%;
-        }
+        .navbar-brand-block { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+        .brand-text-container { display: flex; align-items: center; gap: 6px; }
+        .navbar-brand-block h1 { font-size: 1.1rem; font-weight: 700; color: #0d3c7c; margin: 0; }
+        .navbar-brand-block .divider { color: #6B7280; font-weight: 400; margin: 0 4px; }
+        .navbar-brand-block h2 { font-size: 0.95rem; font-weight: 500; color: #4B5563; margin: 0; }
 
-        .input-block label {
-            font-size: 0.8rem; 
-            color: #4B5563; 
-            font-weight: 600;
-        }
+        .navbar-nav-links { display: flex; align-items: center; gap: 8px; }
+        .navbar-nav-item { display: flex; align-items: center; gap: 8px; color: #4B5563; font-size: 0.9rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: all 0.2s ease; }
+        .navbar-nav-item:hover { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item i { font-size: 0.95rem; color: #6B7280; }
+        .navbar-nav-item:hover i { color: var(--keynexus-blue); }
 
-        input[type="text"], 
-        input[type="datetime-local"], 
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #D1D5DB;
-            border-radius: 6px;
-            background: #FAFBFD;
-            font-size: 0.95rem; /* Larger font layout to bypass iOS Safari layout zooming */
-            color: #111827;
-            outline: none;
-            transition: all 0.2s ease;
-            -webkit-appearance: none; /* Uniform resets across platform inputs */
-        }
+        .user-profile-menu-container { position: relative; display: inline-block; flex-shrink: 0; }
+        .user-dropdown-pill { display: flex; align-items: center; gap: 6px; background-color: #F3F4F6; padding: 6px 12px; border-radius: 30px; border: 1px solid #E5E7EB; cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .user-dropdown-pill:hover { background-color: #E5E7EB; }
+        .user-dropdown-pill span { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .dropdown-menu-panel { position: absolute; top: 115%; right: 0; background-color: #ffffff; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; border: 1px solid #E5E7EB; overflow: hidden; display: none; flex-direction: column; z-index: 1000; }
+        .dropdown-menu-panel.show { display: flex; }
+        .dropdown-item-link { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #E63946; display: flex; align-items: center; gap: 10px; }
+        .dropdown-item-link:hover { background-color: #FEF2F2; }
 
-        input[type="text"]:focus, 
-        input[type="datetime-local"]:focus, 
-        select:focus {
-            border-color: #3A78BF;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08);
-        }
+        main { max-width: 1000px; margin: min(40px, 6vw) auto; padding: 0 20px; width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 10; }
+        form { background: #ffffff; padding: min(40px, 6vw); border-radius: var(--card-radius); box-shadow: var(--card-shadow); width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 16px; border: 1px solid #e5e7eb; border-top: 4px solid #0d3c7c; }
+        h1.form-header { color: #0d3c7c; font-size: calc(1.3rem + 0.4vw); font-weight: 700; margin-bottom: 5px; line-height: 1.2; }
+        h2 { color: #374151; font-size: 0.9rem; margin-top: 10px; padding-bottom: 6px; border-bottom: 2px solid #E5E7EB; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
 
-        /* Restores native select arrow design parameters lost on standard -webkit appearance resets */
-        select {
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-        }
+        .input-block { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .input-block label { font-size: 0.8rem; color: #4B5563; font-weight: 600; }
+        input[type="text"], input[type="datetime-local"], select { width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; background: #FAFBFD; font-size: 0.95rem; color: #111827; outline: none; transition: all 0.2s ease; -webkit-appearance: none; }
+        input[type="text"]:focus, input[type="datetime-local"]:focus, select:focus { border-color: #3A78BF; background-color: #ffffff; box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08); }
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 15px;
-        }
+        select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 40px; }
+        .btn-group { display: flex; gap: 12px; margin-top: 15px; }
+        button { flex: 1; padding: 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s ease; }
+        .btn-submit { background-color: #0d3c7c; color: white; }
+        .btn-submit:hover { background-color: #0A2F61; }
+        .btn-cancel { background-color: #E5E7EB; color: #374151; }
+        .btn-cancel:hover { background-color: #D1D5DB; }
+        .flash-msg { padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-align: center; background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; width: 100%; }
 
-        button {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
+        @media (max-width: 768px) {
+            .menu-toggle-btn { display: block; }
+            .top-navbar { padding: 0 16px; height: 65px; }
+            .navbar-brand-block h1 { font-size: 1.0rem; }
+            .navbar-brand-block .divider, .navbar-brand-block h2 { display: none; }
+            .navbar-nav-links { position: absolute; top: 100%; left: 0; width: 100%; background-color: #ffffff; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border-bottom: 1px solid #e5e7eb; box-shadow: 0 8px 12px rgba(0,0,0,0.08); display: none; }
+            .navbar-nav-links.active { display: flex; }
+            .navbar-nav-item { padding: 14px 20px; border-radius: 0; border-bottom: 1px solid #f3f4f6; }
         }
-
-        .btn-submit { 
-            background-color: #0d3c7c; 
-            color: white; 
-        }
-        .btn-submit:hover { 
-            background-color: #0A2F61; 
-        }
-
-        .btn-cancel { 
-            background-color: #E5E7EB; 
-            color: #374151; 
-        }
-        .btn-cancel:hover { 
-            background-color: #D1D5DB; 
-        }
-
-        .flash-msg {
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: center;
-            background-color: #FEE2E2;
-            color: #991B1B;
-            border: 1px solid #FCA5A5;
-            width: 100%;
-        }
-
-        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
-        @media (max-width: 480px) {
-            .btn-group {
-                flex-direction: column-reverse; /* Stack cancel action directly under submit on thin layouts */
-                gap: 10px;
-            }
-            button {
-                width: 100%;
-            }
-        }
+        @media (max-width: 480px) { .btn-group { flex-direction: column-reverse; gap: 10px; } button { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <form action="/issue" method="POST">
-        <h1>CCS Department | Issue Key</h1>
-        
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash-msg">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    <nav class="top-navbar">
+        <button class="menu-toggle-btn" id="menuToggle" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-        <h2>Key Details</h2>
-        <div class="input-block">
-            <input type="text" name="room_number" placeholder="Room # (e.g., comlab 3)" required>
+        <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
+            <div class="brand-text-container">
+                <h1>LSPU-LB CCS Department</h1>
+                <span class="divider">|</span>
+                <h2>Admin Portal</h2>
+            </div>
         </div>
         
-        <div class="input-block">
-            <select name="schedule" required>
-                <option value="" disabled selected>Select Session Schedule</option>
-                <option value="Morning Session">Morning Session</option>
-                <option value="Afternoon Session">Afternoon Session</option>
-                <option value="Evening Session">Evening Session</option>
-            </select>
+        <div class="navbar-nav-links" id="navLinks">
+            <a href="/dashboard" class="navbar-nav-item">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="/room" class="navbar-nav-item">
+                <i class="fa-solid fa-door-open"></i> Rooms
+            </a>
+            <a href="/admin/students" class="navbar-nav-item">
+                <i class="fa-solid fa-graduation-cap"></i> Students
+            </a>
+            <a href="/return" class="navbar-nav-item">
+                <i class="fa-solid fa-rotate-left"></i> Return
+            </a>
+            <a href="/generate_qr" class="navbar-nav-item">
+                <i class="fa-solid fa-qrcode"></i> Generate QR
+            </a>
         </div>
 
-        <h2>Borrower & Terms</h2>
-        <div class="input-block">
-            <input type="text" name="borrower_name" placeholder="Full Name of Borrower" required>
+        <div class="user-profile-menu-container">
+            <div class="user-dropdown-pill" id="profilePill">
+                <span>admin</span>
+                <i class="fa-solid fa-user-gear" style="color: #6B7280; font-size: 0.8rem; margin-left: 2px;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #6B7280; font-size: 0.6rem; margin-left: 2px;"></i>
+            </div>
+            
+            <div class="dropdown-menu-panel" id="dropdownMenu">
+                <a href="/logout" class="dropdown-item-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
         </div>
-        <div class="input-block">
-            <input type="text" name="id_number" placeholder="ID number" required>
-        </div>
-        <div class="input-block">
-            <input type="text" name="professor" placeholder="Professor Assigned">
-        </div>
-        <div class="input-block">
-            <input type="text" name="department" placeholder="Department (e.g., CCS)">
-        </div>
-        <div class="input-block">
-            <input type="text" name="class_hours" placeholder="Class Hours (e.g., 1:00 PM - 4:00 PM)">
-        </div>
-        
-        <div class="input-block">
-            <label for="return_date">Expected Return Date & Time:</label>
-            <input type="datetime-local" id="return_date" name="return_date" required>
-        </div>
+    </nav>
 
-        <div class="btn-group">
-            <button type="button" class="btn-cancel" onclick="window.location.href='/dashboard'">Cancel</button>
-            <button type="submit" class="btn-submit">Issue Key Securely</button>
-        </div>
-    </form>
+    <main>
+        <form action="/issue" method="POST">
+            <h1 class="form-header">CCS Department | Issue Key</h1>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-msg">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
+            <h2>Key Details</h2>
+            <div class="input-block">
+                <input type="text" name="room_number" placeholder="Room # (e.g., comlab 3)" required>
+            </div>
+            
+            <div class="input-block">
+                <select name="schedule" required>
+                    <option value="" disabled selected>Select Session Schedule</option>
+                    <option value="Morning Session">Morning Session</option>
+                    <option value="Afternoon Session">Afternoon Session</option>
+                    <option value="Evening Session">Evening Session</option>
+                </select>
+            </div>
+
+            <h2>Borrower & Terms</h2>
+            <div class="input-block">
+                <input type="text" name="borrower_name" placeholder="Full Name of Borrower" required>
+            </div>
+            <div class="input-block">
+                <input type="text" name="id_number" placeholder="ID number" required>
+            </div>
+            <div class="input-block">
+                <input type="text" name="professor" placeholder="Professor Assigned">
+            </div>
+            <div class="input-block">
+                <input type="text" name="department" placeholder="Department (e.g., CCS)">
+            </div>
+            <div class="input-block">
+                <input type="text" name="class_hours" placeholder="Class Hours (e.g., 1:00 PM - 4:00 PM)">
+            </div>
+            
+            <div class="input-block">
+                <label for="return_date">Expected Return Date & Time:</label>
+                <input type="datetime-local" id="return_date" name="return_date" required>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="window.location.href='/dashboard'">Cancel</button>
+                <button type="submit" class="btn-submit">Issue Key Securely</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const profilePill = document.getElementById('profilePill');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        profilePill.addEventListener('click', function(event) { event.stopPropagation(); dropdownMenu.classList.toggle('show'); navLinks.classList.remove('active'); });
+        menuToggle.addEventListener('click', function(event) { event.stopPropagation(); navLinks.classList.toggle('active'); dropdownMenu.classList.remove('show'); });
+        document.addEventListener('click', function(event) {
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) { dropdownMenu.classList.remove('show'); }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) { navLinks.classList.remove('active'); }
+        });
+    </script>
 </body>
 </html>
