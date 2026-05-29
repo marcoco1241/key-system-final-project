@@ -19,422 +19,87 @@
             --card-radius: 8px; 
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        a {
-            text-decoration: none;
-            color: #F8F9FB;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        a { text-decoration: none; color: #F8F9FB; }
+        body { font-family: var(--font-stack); background-color: #F8F9FB; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
 
-        body { 
-            font-family: var(--font-stack); 
-            background-color: #F8F9FB; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
+        .top-navbar { background-color: #ffffff; height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #e5e7eb; position: relative; z-index: 100; }
+        .menu-toggle-btn { display: none; background: none; border: none; font-size: 1.3rem; color: #4B5563; cursor: pointer; padding: 6px; margin-right: 8px; }
 
-        /* --- 🛠️ Fixed Ultra-Responsive Navbar System --- */
-        .top-navbar {
-            background-color: #ffffff;
-            height: 75px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #e5e7eb;
-            position: relative;
-            z-index: 100;
-        }
+        .navbar-brand-block { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+        .brand-text-container { display: flex; align-items: center; gap: 6px; }
+        .navbar-brand-block h1 { font-size: 1.1rem; font-weight: 700; color: #0d3c7c; margin: 0; }
+        .navbar-brand-block .divider { color: #6B7280; font-weight: 400; margin: 0 4px; }
+        .navbar-brand-block h2 { font-size: 0.95rem; font-weight: 500; color: #4B5563; margin: 0; }
 
-        .menu-toggle-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            color: #4B5563;
-            cursor: pointer;
-            padding: 6px;
-            margin-right: 8px;
-        }
+        .navbar-nav-links { display: flex; align-items: center; gap: 8px; }
+        .navbar-nav-item { display: flex; align-items: center; gap: 8px; color: #4B5563; font-size: 0.9rem; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: all 0.2s ease; }
+        .navbar-nav-item:hover { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item i { font-size: 0.95rem; color: #6B7280; }
+        .navbar-nav-item:hover i { color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav { background-color: #F3F4F6; color: var(--keynexus-blue); }
+        .navbar-nav-item.active-nav i { color: var(--keynexus-blue); }
 
-        .navbar-brand-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            flex-shrink: 1;
-            min-width: 0;
-        }
+        .user-profile-menu-container { position: relative; display: inline-block; flex-shrink: 0; }
+        .user-dropdown-pill { display: flex; align-items: center; gap: 6px; background-color: #F3F4F6; padding: 6px 12px; border-radius: 30px; border: 1px solid #E5E7EB; cursor: pointer; user-select: none; transition: background-color 0.2s; }
+        .user-dropdown-pill:hover { background-color: #E5E7EB; }
+        .user-dropdown-pill span { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .dropdown-menu-panel { position: absolute; top: 115%; right: 0; background-color: #ffffff; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; border: 1px solid #E5E7EB; overflow: hidden; display: none; flex-direction: column; z-index: 1000; }
+        .dropdown-menu-panel.show { display: flex; }
+        .dropdown-item-link { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #E63946; display: flex; align-items: center; gap: 10px; }
+        .dropdown-item-link:hover { background-color: #FEF2F2; }
 
-        .navbar-brand-block h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0d3c7c;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .navbar-brand-block h1 span {
-            color: #6B7280;
-            font-weight: 400;
-            margin: 0 8px;
-        }
-
-        .navbar-brand-block h2 {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #4B5563;
-            display: inline-block;
-        }
-
-        .navbar-nav-links {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navbar-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #4B5563;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 8px 14px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .navbar-nav-item:hover {
-            background-color: #F3F4F6;
-            color: var(--keynexus-blue);
-        }
-
-        .navbar-nav-item i {
-            font-size: 0.95rem;
-            color: #6B7280;
-        }
-
-        .navbar-nav-item:hover i {
-            color: var(--keynexus-blue);
-        }
-
-        .user-profile-menu-container {
-            position: relative;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .user-dropdown-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #F3F4F6;
-            padding: 6px 12px;
-            border-radius: 30px;
-            border: 1px solid #E5E7EB;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-        }
-
-        .user-dropdown-pill:hover {
-            background-color: #E5E7EB;
-        }
-
-        .user-dropdown-pill span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .dropdown-menu-panel {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background-color: #ffffff;
-            min-width: 150px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            border: 1px solid #E5E7EB;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
-
-        .dropdown-menu-panel.show {
-            display: flex;
-        }
-
-        .dropdown-item-link {
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #E63946;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dropdown-item-link:hover {
-            background-color: #FEF2F2;
-        }
-
-        /* --- Page Component Grid Structures --- */
-        .container { 
-            max-width: 1400px; 
-            margin: min(40px, 6vw) auto; 
-            padding: 0 20px; 
-            display: grid; 
-            grid-template-columns: 1fr 2.4fr; 
-            gap: 25px; 
-            width: 100%;
-            flex: 1;
-        }
-        
-        .card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: var(--card-radius); 
-            box-shadow: var(--card-shadow); 
-            height: fit-content; 
-            border: 1px solid #e5e7eb; 
-        }
-        
+        .container { max-width: 1400px; margin: min(40px, 6vw) auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 2.4fr; gap: 25px; width: 100%; flex: 1; }
+        .card { background: white; padding: 25px; border-radius: var(--card-radius); box-shadow: var(--card-shadow); height: fit-content; border: 1px solid #e5e7eb; }
         h2 { color: #0d3c7c; margin-top: 0; margin-bottom: 20px; font-size: 1.3rem; font-weight: 700; }
-        
         label { font-weight: 600; font-size: 0.85rem; color: #4B5563; display: block; margin-bottom: 6px; text-transform: uppercase; }
         
-        input[type="text"], 
-        input[type="email"], 
-        input[type="password"] { 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 15px; 
-            border: 1px solid #D1D5DB; 
-            border-radius: 6px; 
-            box-sizing: border-box; 
-            background: #FAFBFD; 
-            font-size: 0.95rem; 
-            color: #111827;
-            outline: none;
-            transition: all 0.2s;
-        }
-        input[type="text"]:focus, 
-        input[type="email"]:focus, 
-        input[type="password"]:focus {
-            border-color: #3A78BF;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08);
-        }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #D1D5DB; border-radius: 6px; box-sizing: border-box; background: #FAFBFD; font-size: 0.95rem; color: #111827; outline: none; transition: all 0.2s; }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus { border-color: #3A78BF; background-color: #ffffff; box-shadow: 0 0 0 3px rgba(58, 120, 191, 0.08); }
 
-        button.btn-create { 
-            background-color: #0d3c7c; 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            width: 100%; 
-            border-radius: 6px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            font-size: 0.95rem; 
-            transition: background-color 0.2s; 
-        }
+        button.btn-create { background-color: #0d3c7c; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: background-color 0.2s; }
         button.btn-create:hover { background-color: #0A2F61; }
         
-        /* --- 📊 Premium Responsive Table Layout Module --- */
-        .table-responsive-wrapper {
-            width: 100%;
-            background: white;
-            border-radius: var(--card-radius);
-            box-shadow: var(--card-shadow);
-            border: 1px solid #e5e7eb;
-            overflow-x: auto; /* Handles desktop overflow safely */
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-        }
+        .table-responsive-wrapper { width: 100%; background: white; border-radius: var(--card-radius); box-shadow: var(--card-shadow); border: 1px solid #e5e7eb; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { padding: 14px; text-align: left; border-bottom: 1px solid #edf2f7; }
         th { background-color: #f9fafb; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; color: #6b7280; letter-spacing: 0.5px; }
-        
         .actions-cell { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
         
-        .btn-edit {
-            background-color: #E1EFFE;
-            color: #1E429F;
-            border: 1px solid #A4CAFE;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s;
-        }
+        .btn-edit { background-color: #E1EFFE; color: #1E429F; border: 1px solid #A4CAFE; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; }
         .btn-edit:hover { background-color: #1E429F; color: #ffffff; border-color: #1E429F; }
-
-        .btn-delete {
-            background-color: #FEE2E2;
-            color: var(--alert-red);
-            border: 1px solid #FCA5A5;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.2s;
-        }
+        .btn-delete { background-color: #FEE2E2; color: var(--alert-red); border: 1px solid #FCA5A5; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; }
         .btn-delete:hover { background-color: var(--alert-red); color: #ffffff; border-color: var(--alert-red); }
 
         .flash-banner { padding: 12px; border-radius: 6px; text-align: center; font-weight: 500; margin-bottom: 15px; font-size: 0.9rem; }
         .success { background-color: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0; }
         .error { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
 
-        /* --- Lightbox Window Panel --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 16px;
-        }
-        .modal-box {
-            background: #ffffff;
-            padding: min(35px, 6vw);
-            border-radius: var(--card-radius);
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border: 1px solid #e5e7eb;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 16px; }
+        .modal-box { background: #ffffff; padding: min(35px, 6vw); border-radius: var(--card-radius); width: 100%; max-width: 480px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #e5e7eb; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
         .btn-save { background-color: var(--status-green); color: white; border: none; padding: 12px; flex: 1; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-save:hover { background-color: #23857a; }
         .btn-close { background-color: #e5e7eb; color: #4b5563; border: none; padding: 12px; flex: 1; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-close:hover { background-color: #d1d5db; }
 
-        /* --- 📱 SCREEN SIZE MEDIA QUERIES --- */
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr; /* Stack registration card on top of registry table */
-            }
-        }
-
+        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
-            .menu-toggle-btn {
-                display: block; 
-            }
+            .menu-toggle-btn { display: block; }
+            .top-navbar { padding: 0 16px; height: 65px; }
+            .navbar-brand-block h1 { font-size: 1.0rem; }
+            .navbar-brand-block .divider, .navbar-brand-block h2 { display: none; }
+            .navbar-nav-links { position: absolute; top: 100%; left: 0; width: 100%; background-color: #ffffff; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border-bottom: 1px solid #e5e7eb; box-shadow: 0 8px 12px rgba(0,0,0,0.08); display: none; }
+            .navbar-nav-links.active { display: flex; }
+            .navbar-nav-item { padding: 14px 20px; border-radius: 0; border-bottom: 1px solid #f3f4f6; }
 
-            .top-navbar {
-                padding: 0 16px;
-                height: 65px; 
-            }
-
-            .navbar-brand-block h1 {
-                font-size: 1.0rem; 
-            }
-
-            .navbar-brand-block h1 span, 
-            .navbar-brand-block h2 {
-                display: none; 
-            }
-
-            .navbar-nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #ffffff;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0;
-                padding: 0;
-                border-bottom: 1px solid #e5e7eb;
-                box-shadow: 0 8px 12px rgba(0,0,0,0.08);
-                display: none;
-            }
-
-            .navbar-nav-links.active {
-                display: flex;
-            }
-
-            .navbar-nav-item {
-                padding: 14px 20px;
-                border-radius: 0;
-                border-bottom: 1px solid #f3f4f6;
-            }
-
-            /* 🎴 Transforming harsh data table row lines into clean scannable blocks on phones */
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
-            
-            thead tr { 
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            
-            tr { 
-                border: 1px solid #e5e7eb;
-                border-radius: 6px;
-                margin-bottom: 15px;
-                padding: 10px;
-                background: #ffffff;
-                box-shadow: var(--card-shadow);
-            }
-            
-            td { 
-                border: none;
-                border-bottom: 1px solid #f3f4f6; 
-                position: relative;
-                padding-left: 45%; 
-                text-align: right;
-                font-size: 0.9rem;
-            }
-
-            td:last-child {
-                border-bottom: none;
-                padding-bottom: 5px;
-            }
-            
-            td:before { 
-                position: absolute;
-                top: 14px;
-                left: 12px;
-                width: 40%; 
-                padding-right: 10px; 
-                white-space: nowrap;
-                text-align: left;
-                font-weight: 700;
-                text-transform: uppercase;
-                font-size: 0.72rem;
-                color: #6b7280;
-                content: attr(data-label);
-            }
-
-            .actions-cell {
-                justify-content: flex-end;
-                margin-top: 5px;
-            }
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            tr { border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 15px; padding: 10px; background: #ffffff; box-shadow: var(--card-shadow); }
+            td { border: none; border-bottom: 1px solid #f3f4f6; position: relative; padding-left: 45%; text-align: right; font-size: 0.9rem; }
+            td:last-child { border-bottom: none; padding-bottom: 5px; }
+            td:before { position: absolute; top: 14px; left: 12px; width: 40%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: 700; text-transform: uppercase; font-size: 0.72rem; color: #6b7280; content: attr(data-label); }
+            .actions-cell { justify-content: flex-end; margin-top: 5px; }
         }
     </style>
 </head>
@@ -446,15 +111,22 @@
         </button>
 
         <div class="navbar-brand-block" onclick="window.location.href='/dashboard'">
-            <h1>LSPU-LB CCS Department<span>|</span><h2>Admin Portal</h2></h1>
+            <div class="brand-text-container">
+                <h1>LSPU-LB CCS Department</h1>
+                <span class="divider">|</span>
+                <h2>Admin Portal</h2>
+            </div>
         </div>
         
         <div class="navbar-nav-links" id="navLinks">
+            <a href="/dashboard" class="navbar-nav-item">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
             <a href="/room" class="navbar-nav-item">
                 <i class="fa-solid fa-door-open"></i> Rooms
             </a>
-            <a href="/admin/students" class="navbar-nav-item" style="background-color: #F3F4F6; color: var(--keynexus-blue);">
-                <i class="fa-solid fa-graduation-cap" style="color: var(--keynexus-blue);"></i> Students
+            <a href="/admin/students" class="navbar-nav-item active-nav">
+                <i class="fa-solid fa-graduation-cap"></i> Students
             </a>
             <a href="/return" class="navbar-nav-item">
                 <i class="fa-solid fa-rotate-left"></i> Return
@@ -553,13 +225,10 @@
             <form id="editForm" method="POST" action="">
                 <label>Student ID Number:</label>
                 <input type="text" name="student_id" id="edit_student_id" required>
-                
                 <label>Student Full Name:</label>
                 <input type="text" name="fullname" id="edit_fullname" required>
-                
                 <label>Student Gmail Account:</label>
                 <input type="email" name="email" id="edit_email" required>
-                
                 <label>Student Password String:</label>
                 <input type="text" name="password" id="edit_password" required style="background: #ffffff; border: 1px solid #ddd; margin-bottom: 20px;">
                 
@@ -576,53 +245,29 @@
             fetch(`/admin/students/get/${studentId}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.error) {
-                        alert("Error: " + data.error);
-                        return;
-                    }
+                    if (data.error) { alert("Error: " + data.error); return; }
                     document.getElementById('edit_student_id').value = data.student_id;
                     document.getElementById('edit_fullname').value = data.fullname;
                     document.getElementById('edit_email').value = data.email || '';
                     document.getElementById('edit_password').value = data.password;
-                    
                     document.getElementById('editForm').action = `/admin/students/update/${studentId}`;
                     document.getElementById('editModal').style.display = 'flex';
                 })
-                .catch(err => console.error("Asynchronous workflow retrieval crash: ", err));
+                .catch(err => console.error("Asynchronous workflow crash: ", err));
         }
-
-        function closeEditWorkspace() {
-            document.getElementById('editModal').style.display = 'none';
-        }
-
-        function confirmWipeSignature(studentName) {
-            return confirm(`⚠️ WARNING: Are you sure you want to permanently delete the student account for "${studentName}" from the Key Nexus system? This cannot be undone.`);
-        }
+        function closeEditWorkspace() { document.getElementById('editModal').style.display = 'none'; }
+        function confirmWipeSignature(studentName) { return confirm(`Are you sure you want to delete account for "${studentName}"?`); }
 
         const profilePill = document.getElementById('profilePill');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
 
-        profilePill.addEventListener('click', function(event) {
-            event.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-            navLinks.classList.remove('active');
-        });
-
-        menuToggle.addEventListener('click', function(event) {
-            event.stopPropagation();
-            navLinks.classList.toggle('active');
-            dropdownMenu.classList.remove('show');
-        });
-
+        profilePill.addEventListener('click', function(event) { event.stopPropagation(); dropdownMenu.classList.toggle('show'); navLinks.classList.remove('active'); });
+        menuToggle.addEventListener('click', function(event) { event.stopPropagation(); navLinks.classList.toggle('active'); dropdownMenu.classList.remove('show'); });
         document.addEventListener('click', function(event) {
-            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
-                navLinks.classList.remove('active');
-            }
+            if (!profilePill.contains(event.target) && !dropdownMenu.contains(event.target)) { dropdownMenu.classList.remove('show'); }
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) { navLinks.classList.remove('active'); }
         });
     </script>
 </body>
