@@ -232,7 +232,7 @@ def issue():
                     ))
 
                     alert_msg = f"Issued key: {room_number} | Borrower: {borrower_name}"
-                    cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, 'New')", (alert_msg,))
+                    cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, NOW())", (alert_msg,))
                     
                     conn.commit()
                     flash(f"Key for {room_number} issued successfully!", "success")
@@ -275,7 +275,7 @@ def key_return():
                             cursor.execute("UPDATE transactions SET status = 'Returned' WHERE id = %s", (transaction_id,))
                             alert_msg = f"Returned key: {room_number} ({condition_val}) {f'- {remarks_val}' if remarks_val else ''}"
 
-                        cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, 'New')", (alert_msg,))
+                        cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, NOW())", (alert_msg,))
                         conn.commit()
                         flash(f"Log registered successfully for Room {room_number}.", "success")
                         return redirect(url_for('dashboard'))
@@ -310,8 +310,8 @@ def api_repair_done(room_number):
             if target_row:
                 cursor.execute("UPDATE transactions SET status = 'Returned' WHERE id = %s", (target_row['id'],))
                 
-                alert_msg = f"Fixed key: {room_number} has been repaired and is back in the locker locker."
-                cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, 'New')", (alert_msg,))
+                alert_msg = f"Fixed key: {room_number} has been repaired and is back in the locker room."
+                cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, NOW())", (alert_msg,))
                 
                 conn.commit()
                 return jsonify({'success': True})
@@ -344,7 +344,7 @@ def api_replace_lost(room_number):
                 cursor.execute("UPDATE transactions SET status = 'Returned' WHERE id = %s", (target_row['id'],))
                 
                 alert_msg = f"Replaced key: New duplicate master deployed for {room_number}. Storage restored."
-                cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, 'New')", (alert_msg,))
+                cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, NOW())", (alert_msg,))
                 
                 conn.commit()
                 return jsonify({'success': True})
@@ -378,7 +378,7 @@ def api_search_log():
                 log = cursor.fetchone()
 
                 if log:
-                    log['is_overdue'] = str(datetime.now()) > str(log['return_date']) if log['return_date'] else False
+                    log['is_overdue'] = datetime.now() > log['return_date'] if log['return_date'] else False
                     return jsonify(log)
                 else:
                     return jsonify(None)
@@ -470,6 +470,62 @@ def api_fetch_rooms():
         return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
+
+@app.route('/api/add_room', methods=['POST'])
+def api_add_room():
+    """Adds a new room location into the system by pushing an initial row with all required columns populated."""
+    if not session.get('logged_in') or session.get('role') != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    room_name = request.form.get('room_name', '').strip()
+    if not room_name:
+        return jsonify({'error': 'Room identifier field cannot be blank.'}), 400
+
+    conn = get_db_connection()
+    if conn:
+        try:
+            with conn.cursor() as cursor:
+                # Basic duplicate check
+                cursor.execute("SELECT id FROM transactions WHERE LOWER(room_number) = LOWER(%s) LIMIT 1", (room_name,))
+                if cursor.fetchone():
+                    return jsonify({'error': 'This facility room code is already active in logs.'}), 400
+
+                # Added dummy placeholders for all columns to avoid NOT NULL default constraint errors
+                sql = """
+                    INSERT INTO transactions (room_number, schedule, borrower_name, id_number, professor, department, class_hours, return_date, status) 
+                    VALUES (%s, 'System Session', 'System Init', '0000-00000', 'None Assigned', 'CCS', '0:00 AM - 0:00 AM', NOW(), 'Returned')
+                """
+                cursor.execute(sql, (room_name,))
+                conn.commit()
+                return jsonify({'success': True})
+        except pymysql.MySQLError as e:
+            return jsonify({'error': str(e)}), 500
+        finally:
+            conn.close()
+    return jsonify({'error': 'Database offline'}), 500
+
+@app.route('/api/delete_room', methods=['POST'])
+def api_delete_room():
+    """Removes a room from tracking layout profiles by dropping log records associated with its room name context."""
+    if not session.get('logged_in') or session.get('role') != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    room_name = request.form.get('room_name', '').strip()
+    if not room_name:
+        return jsonify({'error': 'Target selection parameter error'}), 400
+
+    conn = get_db_connection()
+    if conn:
+        try:
+            with conn.cursor() as cursor:
+                cursor.execute("DELETE FROM transactions WHERE LOWER(room_number) = LOWER(%s)", (room_name,))
+                conn.commit()
+                return jsonify({'success': True})
+        except pymysql.MySQLError as e:
+            return jsonify({'error': str(e)}), 500
+        finally:
+            conn.close()
+    return jsonify({'error': 'Database offline'}), 500
 
 @app.route('/generate_qr', methods=['GET', 'POST'])
 def generate_qr():
@@ -751,7 +807,7 @@ def student_issue(room_number):
                     ))
 
                     alert_msg = f"QR Request: {room_number} self-issued by Student: {borrower_name}"
-                    cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, 'New')", (alert_msg,))
+                    cursor.execute("INSERT INTO alerts (message, created_at) VALUES (%s, NOW())", (alert_msg,))
                     
                     conn.commit()
                     return render_template('student_success.html', room_number=room_number)
